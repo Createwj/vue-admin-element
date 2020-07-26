@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import icon from '@/assets/huanyu.jpeg'
 export default {
   name: 'SidebarLogo',
   props: {
@@ -24,8 +25,8 @@ export default {
   },
   data() {
     return {
-      title: 'Vue Element Admin',
-      logo: 'https://wpimg.wallstcn.com/69a1c46c-eb1c-4b46-8bd4-e9e686ef5251.png'
+      title: '寰宇单车俱乐部',
+      logo: icon
     }
   }
 }
@@ -44,8 +45,8 @@ export default {
 .sidebar-logo-container {
   position: relative;
   width: 100%;
-  height: 50px;
-  line-height: 50px;
+  height: 80px;
+  line-height: 80px;
   background: #2b2f3a;
   text-align: center;
   overflow: hidden;
@@ -55,8 +56,8 @@ export default {
     width: 100%;
 
     & .sidebar-logo {
-      width: 32px;
-      height: 32px;
+      width: 46px;
+      height: 46px;
       vertical-align: middle;
       margin-right: 12px;
     }

@@ -220,3 +220,34 @@ Modern browsers and Internet Explorer 10+.
 [MIT](https://github.com/PanJiaChen/vue-element-admin/blob/master/LICENSE)
 
 Copyright (c) 2017-present PanJiaChen
+
+
+
+### 修改主题
+```$xslt
+import { toggleClass } from '@/utils'
+import '@/assets/custom-theme/index.css' // the theme changed version element-ui css
+
+export default {
+  name: 'Theme',
+  data() {
+    return {
+      theme: false,
+      tags: [
+        { name: 'Tag One', type: '' },
+        { name: 'Tag Two', type: 'info' },
+        { name: 'Tag Three', type: 'success' },
+        { name: 'Tag Four', type: 'warning' },
+        { name: 'Tag Five', type: 'danger' }
+      ],
+      slideValue: 50,
+      radio: 3
+    }
+  },
+  watch: {
+    theme() {
+      toggleClass(document.body, 'custom-theme')
+    }
+  }
+}
+```
