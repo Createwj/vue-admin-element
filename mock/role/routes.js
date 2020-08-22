@@ -138,85 +138,85 @@ const asyncRoutes = [
     children: [
       {
         path: 'tinymce',
-        component: 'views/components-demo/tinymce',
+        component: 'views/tinymce/tinymce',
         name: 'TinymceDemo',
         meta: { title: 'Tinymce' }
       },
       {
         path: 'markdown',
-        component: 'views/components-demo/markdown',
+        component: 'views/tinymce/markdown',
         name: 'MarkdownDemo',
         meta: { title: 'Markdown' }
       },
       {
         path: 'json-editor',
-        component: 'views/components-demo/json-editor',
+        component: 'views/tinymce/json-editor',
         name: 'JsonEditorDemo',
         meta: { title: 'Json Editor' }
       },
       {
         path: 'split-pane',
-        component: 'views/components-demo/split-pane',
+        component: 'views/tinymce/split-pane',
         name: 'SplitpaneDemo',
         meta: { title: 'SplitPane' }
       },
       {
         path: 'avatar-upload',
-        component: 'views/components-demo/avatar-upload',
+        component: 'views/tinymce/avatar-upload',
         name: 'AvatarUploadDemo',
         meta: { title: 'Avatar Upload' }
       },
       {
         path: 'dropzone',
-        component: 'views/components-demo/dropzone',
+        component: 'views/tinymce/dropzone',
         name: 'DropzoneDemo',
         meta: { title: 'Dropzone' }
       },
       {
         path: 'sticky',
-        component: 'views/components-demo/sticky',
+        component: 'views/tinymce/sticky',
         name: 'StickyDemo',
         meta: { title: 'Sticky' }
       },
       {
         path: 'count-to',
-        component: 'views/components-demo/count-to',
+        component: 'views/tinymce/count-to',
         name: 'CountToDemo',
         meta: { title: 'Count To' }
       },
       {
         path: 'mixin',
-        component: 'views/components-demo/mixin',
+        component: 'views/tinymce/mixin',
         name: 'ComponentMixinDemo',
         meta: { title: 'componentMixin' }
       },
       {
         path: 'back-to-top',
-        component: 'views/components-demo/back-to-top',
+        component: 'views/tinymce/back-to-top',
         name: 'BackToTopDemo',
         meta: { title: 'Back To Top' }
       },
       {
         path: 'drag-dialog',
-        component: 'views/components-demo/drag-dialog',
+        component: 'views/tinymce/drag-dialog',
         name: 'DragDialogDemo',
         meta: { title: 'Drag Dialog' }
       },
       {
         path: 'drag-select',
-        component: 'views/components-demo/drag-select',
+        component: 'views/tinymce/drag-select',
         name: 'DragSelectDemo',
         meta: { title: 'Drag Select' }
       },
       {
         path: 'dnd-list',
-        component: 'views/components-demo/dnd-list',
+        component: 'views/tinymce/dnd-list',
         name: 'DndListDemo',
         meta: { title: 'Dnd List' }
       },
       {
         path: 'drag-kanban',
-        component: 'views/components-demo/drag-kanban',
+        component: 'views/tinymce/drag-kanban',
         name: 'DragKanbanDemo',
         meta: { title: 'Drag Kanban' }
       }

@@ -81,7 +81,7 @@ export const asyncRoutes = [
     children: [
       {
         path: 'Tinymce',
-        component: () => import('@/views/components-demo/tinymce'),
+        component: () => import('@/views/tinymce/tinymce'),
         name: 'Tinymce',
         meta: { title: '富文本', noCache: true }
       }
