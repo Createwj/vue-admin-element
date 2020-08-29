@@ -132,12 +132,10 @@ export default {
           // 派发事件  user -> login  进行登录
           this.$store.dispatch('user/login', this.loginForm)
             .then(() => {
-              debugger
               this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
               this.loading = false
             })
             .catch(() => {
-              debugger
               this.loading = false
             })
         } else {
