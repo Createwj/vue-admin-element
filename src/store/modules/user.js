@@ -1,7 +1,7 @@
 import { login, logout, getInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
-
+const sha1 = require('js-sha1')
 const state = {
   token: getToken(),
   name: '',
@@ -31,15 +31,18 @@ const mutations = {
 const actions = {
   // user login
   login({ commit }, userInfo) {
-    debugger
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
+      login({ username: username.trim(), password: sha1(password) }).then(response => {
+        debugger
         const { data } = response
+        console.log(data)
+        console.log('][][][][')
         commit('SET_TOKEN', data.token)
         setToken(data.token)
         resolve()
       }).catch(error => {
+        debugger
         reject(error)
       })
     })

@@ -77,7 +77,7 @@ export default {
     return {
       loginForm: {
         username: 'admin',
-        password: '111111'
+        password: 'huanyubike123'
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -132,10 +132,12 @@ export default {
           // 派发事件  user -> login  进行登录
           this.$store.dispatch('user/login', this.loginForm)
             .then(() => {
+              debugger
               this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
               this.loading = false
             })
             .catch(() => {
+              debugger
               this.loading = false
             })
         } else {
