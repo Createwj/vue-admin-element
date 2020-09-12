@@ -4,7 +4,7 @@
       v-if="!value"
       class="pic-uploader-component"
       accept="image/gif,image/jpeg,image/jpg,image/png,image/svg"
-      :action="$http.adornUrl('/admin/file/element')"
+      :action="'http://192.168.1.7:8012/admin/file/element'"
       :headers="{Authorization: token }"
       :on-preview="handlePictureCardPreview"
       :show-file-list="false"
@@ -111,7 +111,7 @@ export default {
             },
             () => {
               return Promise.reject()
-            },
+            }
           )
           return isSize
         } else {

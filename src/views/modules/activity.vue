@@ -238,9 +238,9 @@
         </el-form-item>
         <el-form-item label="活动二维码" prop="activityQrCode">
 
-          <el-input v-model="form.activityQrCode" placeholder="请输入活动二维码2" />
+          <!--<el-input v-model="form.activityQrCode" placeholder="请输入活动二维码2" />-->
 
-          <picUpload :value="form.activityQrCode"/>
+          <picUpload v-model="form.activityQrCode" />
 
         </el-form-item>
         <el-form-item label="录入人" prop="inputUser">
