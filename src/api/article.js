@@ -1,10 +1,29 @@
 import request from '@/utils/request'
 
+// 获取活动列表
 export function fetchList(query) {
   return request({
-    url: '/vue-element-admin/article/list',
-    method: 'get',
-    params: query
+    url: '/admin/activity/page',
+    method: 'POST',
+    data: {}
+  })
+}
+
+// 创建活动
+export function createArticle(data) {
+  return request({
+    url: '/vue-element-admin/article/create',
+    method: 'post',
+    data
+  })
+}
+
+// 更新活动
+export function updateArticle(data) {
+  return request({
+    url: '/vue-element-admin/article/update',
+    method: 'post',
+    data
   })
 }
 
@@ -24,18 +43,3 @@ export function fetchPv(pv) {
   })
 }
 
-export function createArticle(data) {
-  return request({
-    url: '/vue-element-admin/article/create',
-    method: 'post',
-    data
-  })
-}
-
-export function updateArticle(data) {
-  return request({
-    url: '/vue-element-admin/article/update',
-    method: 'post',
-    data
-  })
-}

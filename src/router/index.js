@@ -42,7 +42,7 @@ export const constantRoutes = [
     component: () => import('@/views/error-page/401'),
     hidden: true
   },
-  // 首页
+  // 首页  活动列表
   {
     path: '/',
     component: Layout,
@@ -50,9 +50,94 @@ export const constantRoutes = [
     children: [
       {
         path: 'index',
-        component: () => import('@/views/table/complex-table'),
+        component: () => import('@/views/modules/activity.vue'),
+        // component: () => import('@/views/table/complex-table'),
         name: 'Icons',
-        meta: { title: '活动编辑', icon: 'dashboard', affix: true }
+        meta: { title: '活动列表', icon: 'dashboard', affix: true }
+      }
+    ]
+  },
+  {
+    path: '/tables',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/modules/apply.vue'),
+        name: 'Tinymce',
+        meta: { title: '报名列表', icon: 'dashboard', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/user/shop',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/modules/product.vue'),
+        name: 'Icons',
+        meta: { title: '积分商品', icon: 'dashboard', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/vip',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/modules/member.vue'),
+        name: 'Icons',
+        meta: { title: '用户管理', icon: 'dashboard', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/vip/score',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/modules/memberAccount.vue'),
+        name: 'Icons',
+        meta: { title: '积分管理', icon: 'dashboard', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/vip/s',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/modules/memberAccountLog.vue'),
+        name: 'Icons',
+        meta: { title: '会员账号记录', icon: 'dashboard', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/vip/token',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/modules/memberToken.vue'),
+        name: 'Icons',
+        meta: { title: '用户token管理', icon: 'dashboard', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/user/order',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/modules/order.vue'),
+        name: 'Icons',
+        meta: { title: '订单管理', icon: 'dashboard', noCache: true }
       }
     ]
   }
@@ -64,7 +149,7 @@ export const constantRoutes = [
  */
 export const asyncRoutes = [
   {
-    path: '/tables',
+    path: '/table',
     component: Layout,
     children: [
       {
