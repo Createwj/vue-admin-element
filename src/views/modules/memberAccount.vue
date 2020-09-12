@@ -186,7 +186,8 @@ export default {
     // 获取数据列表
     getDataList() {
       this.listLoading = true
-      page(this.listQuery).then(data => {
+      page(this.listQuery).then(res => {
+        const data = res.data
         this.dataList = data.ITEMS
         this.total = data.count
         this.listLoading = false
@@ -224,7 +225,8 @@ export default {
     },
     // 编辑操作
     handleUpdate(row) {
-      getObj(row.memberId).then(data => {
+      getObj(row.memberId).then(res => {
+        const data = res.data
         this.form.memberId = data.memberId
         this.form.totalIntegral = data.totalIntegral
         this.form.integral = data.integral
@@ -234,7 +236,8 @@ export default {
     },
     // 查看操作
     handleView(row) {
-      getObj(row.memberId).then(data => {
+      getObj(row.memberId).then(res => {
+        const data = res.data
         this.form.memberId = data.memberId
         this.form.totalIntegral = data.totalIntegral
         this.form.integral = data.integral

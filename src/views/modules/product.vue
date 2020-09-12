@@ -368,7 +368,8 @@ export default {
     // 获取数据列表
     getDataList() {
       this.listLoading = true
-      page(this.listQuery).then(data => {
+      page(this.listQuery).then(res => {
+        const data = res.data
         this.dataList = data.ITEMS
         this.total = data.count
         this.listLoading = false
@@ -413,7 +414,8 @@ export default {
     },
     // 编辑操作
     handleUpdate(row) {
-      getObj(row.productId).then(data => {
+      getObj(row.productId).then(res => {
+        const data = res.data
         this.form.productId = data.productId
         this.form.productName = data.productName
         this.form.productImg = data.productImg
@@ -430,7 +432,8 @@ export default {
     },
     // 查看操作
     handleView(row) {
-      getObj(row.productId).then(data => {
+      getObj(row.productId).then(res => {
+        const data = res.data
         this.form.productId = data.productId
         this.form.productName = data.productName
         this.form.productImg = data.productImg

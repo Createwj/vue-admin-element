@@ -1,69 +1,28 @@
 <template>
   <div class="app-container calendar-list-container">
     <div class="main-titles">
-      <div>活动表</div>
-      <div class="add-box">
-        <el-button class="filter-item add-btns" size="mini" style="margin-left: 10px;" @click="handleCreate">{{ $t('table.add') }}</el-button>
+      <h3>活动表</h3>
+      <div class="add-box" style="margin-bottom: 30px">
+        <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">
+          {{ $t('table.add') }}
+        </el-button>
+        <!--<el-button class="filter-item add-btns" size="mini" style="margin-left: 10px;" @click="handleCreate">{{ $t('table.add') }}</el-button>-->
       </div>
     </div>
-    <message-notice :message="message" />
+    <!--<message-notice :message="message" />-->
     <!-- 搜索条件 -->
-    <el-form ref="listQuery" :model="listQuery" label-width="120px">
+    <el-form ref="listQuery" :inline="true" :model="listQuery" label-width="90px">
       <div class="filter-container">
-
         <el-form-item label="活动ID:">
           <el-input v-model="listQuery.activityId" size="small" class="filter-item" placeholder="活动ID" />
         </el-form-item>
-        <el-form-item label="活动名称:">
-          <el-input v-model="listQuery.activityName" size="small" class="filter-item" placeholder="活动名称" />
-        </el-form-item>
+
         <el-form-item label="活动类型:">
           <el-input v-model="listQuery.activityType" size="small" class="filter-item" placeholder="活动类型" />
         </el-form-item>
-        <el-form-item label="活动图片:">
-          <el-input v-model="listQuery.activityImg" size="small" class="filter-item" placeholder="活动图片" />
-        </el-form-item>
-        <el-form-item label="开始地点:">
-          <el-input v-model="listQuery.startAddr" size="small" class="filter-item" placeholder="开始地点" />
-        </el-form-item>
-        <el-form-item label="结束地点:">
-          <el-input v-model="listQuery.endAddr" size="small" class="filter-item" placeholder="结束地点" />
-        </el-form-item>
-        <el-form-item label="开始时间:">
-          <el-input v-model="listQuery.startTime" size="small" class="filter-item" placeholder="开始时间" />
-        </el-form-item>
-        <el-form-item label="结束时间:">
-          <el-input v-model="listQuery.endTime" size="small" class="filter-item" placeholder="结束时间" />
-        </el-form-item>
-        <el-form-item label="活动简介:">
-          <el-input v-model="listQuery.activitySummary" size="small" class="filter-item" placeholder="活动简介" />
-        </el-form-item>
-        <el-form-item label="限制人数:">
-          <el-input v-model="listQuery.limitNum" size="small" class="filter-item" placeholder="限制人数" />
-        </el-form-item>
-        <el-form-item label="报名人数:">
-          <el-input v-model="listQuery.applyNum" size="small" class="filter-item" placeholder="报名人数" />
-        </el-form-item>
-        <el-form-item label="活动状态:">
-          <el-input v-model="listQuery.activitySta" size="small" class="filter-item" placeholder="活动状态" />
-        </el-form-item>
-        <el-form-item label="浏览量:">
-          <el-input v-model="listQuery.previewCount" size="small" class="filter-item" placeholder="浏览量" />
-        </el-form-item>
-        <el-form-item label="详情:">
-          <el-input v-model="listQuery.activityDesc" size="small" class="filter-item" placeholder="详情" />
-        </el-form-item>
+
         <el-form-item label="是否付费:">
           <el-input v-model="listQuery.isFree" size="small" class="filter-item" placeholder="是否付费" />
-        </el-form-item>
-        <el-form-item label="价格:">
-          <el-input v-model="listQuery.price" size="small" class="filter-item" placeholder="价格" />
-        </el-form-item>
-        <el-form-item label="活动积分:">
-          <el-input v-model="listQuery.activityIntegral" size="small" class="filter-item" placeholder="活动积分" />
-        </el-form-item>
-        <el-form-item label="活动二维码:">
-          <el-input v-model="listQuery.activityQrCode" size="small" class="filter-item" placeholder="活动二维码" />
         </el-form-item>
         <el-form-item label="录入人:">
           <el-input v-model="listQuery.inputUser" size="small" class="filter-item" placeholder="录入人" />
@@ -185,9 +144,13 @@
         </el-table-column>
         <el-table-column align="center" label="操作" width="300">
           <template slot-scope="scope">
-            <span class="list-btns" @click="handleView(scope.row)">{{ $t('table.view') }}</span>
-            <span class="list-btns" @click="handleUpdate(scope.row)">{{ $t('table.edit') }}</span>
-            <span class="list-delete-btn" @click="handleDelete(scope.row)">{{ $t('table.delete') }}</span>
+            <!--查看-->
+            <el-button type="primary" @click="handleView(scope.row)">{{ $t('table.view') }}</el-button>
+            <!--编辑-->
+            <el-button type="primary" @click="handleUpdate(scope.row)">{{ $t('table.edit') }}</el-button>
+            <!--删除-->
+            <el-button type="primary" @click="handleDelete(scope.row)">{{ $t('table.delete') }}</el-button>
+
           </template>
         </el-table-column>
       </el-table>
@@ -207,7 +170,7 @@
 
     <!-- 新增或编辑弹窗 -->
     <el-dialog :title="$t('table.'+textMap[dialogStatus])" :visible.sync="dialogAddOrUpdateVisible">
-      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
+      <el-form ref="form" :inline="true" :model="form" :rules="rules" label-width="100px">
         <el-form-item label="活动ID" prop="activityId">
           <el-input v-model="form.activityId" placeholder="请输入活动ID" />
         </el-form-item>
@@ -227,10 +190,19 @@
           <el-input v-model="form.endAddr" placeholder="请输入结束地点" />
         </el-form-item>
         <el-form-item label="开始时间" prop="startTime">
-          <el-input v-model="form.startTime" placeholder="请输入开始时间" />
+          <el-date-picker
+            v-model="form.startTime"
+            type="datetime"
+            placeholder="选择开始时间"
+          />
+
         </el-form-item>
         <el-form-item label="结束时间" prop="endTime">
-          <el-input v-model="form.endTime" placeholder="请输入结束时间" />
+          <el-date-picker
+            v-model="form.endTime"
+            type="datetime"
+            placeholder="请输入结束时间"
+          />
         </el-form-item>
         <el-form-item label="活动简介" prop="activitySummary">
           <el-input v-model="form.activitySummary" placeholder="请输入活动简介" />
@@ -248,10 +220,15 @@
           <el-input v-model="form.previewCount" placeholder="请输入浏览量" />
         </el-form-item>
         <el-form-item label="详情" prop="activityDesc">
+
           <el-input v-model="form.activityDesc" placeholder="请输入详情" />
+
         </el-form-item>
         <el-form-item label="是否付费" prop="isFree">
-          <el-input v-model="form.isFree" placeholder="请输入是否付费" />
+
+          <!--<el-input v-model="form.isFree" placeholder="请输入是否付费" />-->
+          <el-radio v-model="form.isFree" label="0">免费</el-radio>
+          <el-radio v-model="form.isFree" label="1">付费</el-radio>
         </el-form-item>
         <el-form-item label="价格" prop="price">
           <el-input v-model="form.price" placeholder="请输入价格" />
@@ -260,13 +237,19 @@
           <el-input v-model="form.activityIntegral" placeholder="请输入活动积分" />
         </el-form-item>
         <el-form-item label="活动二维码" prop="activityQrCode">
+
           <el-input v-model="form.activityQrCode" placeholder="请输入活动二维码" />
+
         </el-form-item>
         <el-form-item label="录入人" prop="inputUser">
           <el-input v-model="form.inputUser" placeholder="请输入录入人" />
         </el-form-item>
         <el-form-item label="录入时间" prop="inputTime">
-          <el-input v-model="form.inputTime" placeholder="请输入录入时间" />
+          <el-date-picker
+            v-model="form.inputTime"
+            type="datetime"
+            placeholder="请输入录入时间"
+          />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -299,10 +282,22 @@
           <el-input v-model="form.endAddr" readonly="readonly" />
         </el-form-item>
         <el-form-item label="开始时间" prop="startTime">
-          <el-input v-model="form.startTime" readonly="readonly" />
+          <!--<el-input v-model="form.startTime" readonly="readonly" />-->
+          <el-date-picker
+            v-model="form.startTime"
+            type="datetime"
+            readonly="readonly"
+            placeholder="选择开始时间"
+          />
         </el-form-item>
         <el-form-item label="结束时间" prop="endTime">
-          <el-input v-model="form.endTime" readonly="readonly" />
+          <el-date-picker
+            v-model="form.endTime"
+            type="datetime"
+            readonly="readonly"
+            placeholder="结束时间"
+          />
+          <!--<el-input v-model="form.endTime" readonly="readonly" />-->
         </el-form-item>
         <el-form-item label="活动简介" prop="activitySummary">
           <el-input v-model="form.activitySummary" readonly="readonly" />
@@ -323,7 +318,8 @@
           <el-input v-model="form.activityDesc" readonly="readonly" />
         </el-form-item>
         <el-form-item label="是否付费" prop="isFree">
-          <el-input v-model="form.isFree" readonly="readonly" />
+          <el-radio v-model="form.isFree" label="0">免费</el-radio>
+          <el-radio v-model="form.isFree" label="1">付费</el-radio>
         </el-form-item>
         <el-form-item label="价格" prop="price">
           <el-input v-model="form.price" readonly="readonly" />
@@ -338,7 +334,13 @@
           <el-input v-model="form.inputUser" readonly="readonly" />
         </el-form-item>
         <el-form-item label="录入时间" prop="inputTime">
-          <el-input v-model="form.inputTime" readonly="readonly" />
+          <el-date-picker
+            v-model="form.inputTime"
+            readonly="readonly"
+            type="datetime"
+            placeholder="结束时间"
+          />
+          <!--<el-input v-model="form.inputTime" readonly="readonly" />-->
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -373,7 +375,7 @@ export default {
         activitySta: '',
         previewCount: '',
         activityDesc: '',
-        isFree: '',
+        isFree: 0,
         price: '',
         activityIntegral: '',
         activityQrCode: '',
@@ -629,8 +631,8 @@ export default {
     getDataList() {
       this.listLoading = true
       page(this.listQuery).then(data => {
-        this.dataList = data.ITEMS
-        this.total = data.count
+        this.dataList = data.data.items
+        this.total = data.data.count
         this.listLoading = false
       }).catch(() => {
         this.dataList = []
@@ -683,7 +685,8 @@ export default {
     },
     // 编辑操作
     handleUpdate(row) {
-      getObj(row.activityId).then(data => {
+      getObj(row.activityId).then(res => {
+        const data = res.data
         this.form.activityId = data.activityId
         this.form.activityName = data.activityName
         this.form.activityType = data.activityType
@@ -710,7 +713,8 @@ export default {
     },
     // 查看操作
     handleView(row) {
-      getObj(row.activityId).then(data => {
+      getObj(row.activityId).then(res => {
+        const data = res.data
         this.form.activityId = data.activityId
         this.form.activityName = data.activityName
         this.form.activityType = data.activityType
