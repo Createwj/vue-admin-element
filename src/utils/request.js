@@ -3,10 +3,13 @@ import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 
+// 本地
+export const ajaxUrl = 'http://192.168.1.7:8012'
+// 服务器
+// export const ajaxUrl = 'http://39.100.199.170:8012'
 // create an axios instance
 const service = axios.create({
-  // baseURL: 'http://39.100.199.170:8012',
-  baseURL: 'http://192.168.1.7:8012',
+  baseURL: ajaxUrl,
   // withCredentials: true, // 跨域发送cookie
   timeout: 5000
 })

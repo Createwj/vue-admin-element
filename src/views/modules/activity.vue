@@ -239,6 +239,9 @@
         <el-form-item label="活动二维码" prop="activityQrCode">
 
           <!--<el-input v-model="form.activityQrCode" placeholder="请输入活动二维码2" />-->
+          <!--<el-form-item prop="image_uri" style="margin-bottom: 30px;">-->
+          <!--<Upload v-model="postForm.image_uri" />-->
+          <!--</el-form-item>-->
 
           <picUpload v-model="form.activityQrCode" />
 

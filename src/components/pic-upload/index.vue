@@ -4,7 +4,7 @@
       v-if="!value"
       class="pic-uploader-component"
       accept="image/gif,image/jpeg,image/jpg,image/png,image/svg"
-      :action="'http://192.168.1.7:8012/admin/file/element'"
+      :action="ajaxRes"
       :headers="{Authorization: token }"
       :on-preview="handlePictureCardPreview"
       :show-file-list="false"
@@ -26,7 +26,7 @@
 
 <script>
 import { getToken } from '@/utils/auth'
-import request from '@/utils/request'
+import { ajaxUrl, request } from '@/utils/request'
 export default {
   props: {
     value: {
@@ -55,7 +55,8 @@ export default {
       progressLength: 0,
       resourcesUrl: '',
       request,
-      token: ''
+      token: '',
+      ajaxRes: ajaxUrl + '/admin/file/element'
     }
   },
   created() {
@@ -64,11 +65,11 @@ export default {
   methods: {
     // 图片上传
     handleUploadSuccess(response, file, fileList) {
-      if (file.response.code === '0000') {
+      if (file.response.code === 0) {
         this.progressStatus = 'success'
         this.showProgress = false
         this.progressLength = 0
-        this.$emit('input', file.response.filePath)
+        this.$emit('input', file.response.data.filePath)
       } else {
         this.progressStatus = 'exception'
         this.$emit('input', '')
