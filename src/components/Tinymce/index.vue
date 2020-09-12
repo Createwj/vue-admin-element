@@ -1,28 +1,23 @@
 <template>
   <div :class="{fullscreen:fullscreen}" class="tinymce-container" :style="{width:containerWidth}">
     <textarea :id="tinymceId" class="tinymce-textarea" />
-    <div class="editor-custom-btn-container">
-      <editorImage color="#1890ff" class="editor-upload-btn" @successCBK="imageSuccessCBK" />
-    </div>
   </div>
 </template>
-
+<script src="jquery-form.js"></script>
 <script>
 /**
  * docs:
  * https://panjiachen.github.io/vue-element-admin-site/feature/component/rich-editor.html#tinymce
  */
-import editorImage from './components/EditorImage'
+const tinymceCDN = '/tinymce/tinymce.min.js'
+
 import plugins from './plugins'
 import toolbar from './toolbar'
 import load from './dynamicLoadScript'
-
-// why use this cdn, detail see https://github.com/PanJiaChen/tinymce-all-in-one
-const tinymceCDN = 'https://cdn.jsdelivr.net/npm/tinymce-all-in-one@4.9.3/tinymce.min.js'
+import { ajaxUrl } from '@/utils/request'
 
 export default {
   name: 'Tinymce',
-  components: { editorImage },
   props: {
     id: {
       type: String,
@@ -58,7 +53,6 @@ export default {
   },
   data() {
     return {
-      hasChange: false,
       hasInit: false,
       tinymceId: this.id,
       fullscreen: false,
@@ -71,6 +65,9 @@ export default {
     }
   },
   computed: {
+    language() {
+      return this.languageTypeList[this.$store.getters.language]
+    },
     containerWidth() {
       const width = this.width
       if (/^[\d]+(\.[\d]+)?$/.test(width)) { // matches `100`, `'100'`
@@ -81,10 +78,14 @@ export default {
   },
   watch: {
     value(val) {
-      if (!this.hasChange && this.hasInit) {
+      if (val !== window.tinymce.get(this.tinymceId).getContent() && this.hasInit) {
         this.$nextTick(() =>
           window.tinymce.get(this.tinymceId).setContent(val || ''))
       }
+    },
+    language() {
+      this.destroyTinymce()
+      this.$nextTick(() => this.initTinymce())
     }
   },
   mounted() {
@@ -115,16 +116,24 @@ export default {
     initTinymce() {
       const _this = this
       window.tinymce.init({
+        external_plugins: {
+          'powerpaste': '/tinymce/plugins/powerpaste/plugin.min.js'
+        },
+        language: this.language,
         selector: `#${this.tinymceId}`,
-        language: this.languageTypeList['en'],
         height: this.height,
         body_class: 'panel-body ',
-        object_resizing: false,
+        object_resizing: true,
         toolbar: this.toolbar.length > 0 ? this.toolbar : toolbar,
-        menubar: this.menubar,
+        menubar: '', // this.menubar,
         plugins: plugins,
         end_container_on_empty_block: true,
-        powerpaste_word_import: 'clean',
+        // powerpaste_word_import: 'clean',
+        images_upload_url: ajaxUrl + '/admin/file/tinymceEditor',
+        powerpaste_word_import: 'propmt',// 参数可以是propmt, merge, clear，效果自行切换对比
+        powerpaste_html_import: 'propmt',// propmt, merge, clear
+        powerpaste_allow_local_images: true,
+        paste_data_images: true,
         code_dialog_height: 450,
         code_dialog_width: 1000,
         advlist_bullet_styles: 'square',
@@ -134,57 +143,23 @@ export default {
         link_title: false,
         nonbreaking_force_tab: true, // inserting nonbreaking space &nbsp; need Nonbreaking Space Plugin
         init_instance_callback: editor => {
+          console.log(editor)
           if (_this.value) {
+            console.log(_this.value)
             editor.setContent(_this.value)
           }
           _this.hasInit = true
-          editor.on('NodeChange Change KeyUp SetContent', () => {
-            this.hasChange = true
+          editor.on('NodeChange Change KeyUp SetContent', (res) => {
+            console.log(res)
             this.$emit('input', editor.getContent())
+            console.log(editor.getContent())
           })
         },
         setup(editor) {
           editor.on('FullscreenStateChanged', (e) => {
             _this.fullscreen = e.state
           })
-        },
-        // it will try to keep these URLs intact
-        // https://www.tiny.cloud/docs-3x/reference/configuration/Configuration3x@convert_urls/
-        // https://stackoverflow.com/questions/5196205/disable-tinymce-absolute-to-relative-url-conversions
-        convert_urls: false
-        // 整合七牛上传
-        // images_dataimg_filter(img) {
-        //   setTimeout(() => {
-        //     const $image = $(img);
-        //     $image.removeAttr('width');
-        //     $image.removeAttr('height');
-        //     if ($image[0].height && $image[0].width) {
-        //       $image.attr('data-wscntype', 'image');
-        //       $image.attr('data-wscnh', $image[0].height);
-        //       $image.attr('data-wscnw', $image[0].width);
-        //       $image.addClass('wscnph');
-        //     }
-        //   }, 0);
-        //   return img
-        // },
-        // images_upload_handler(blobInfo, success, failure, progress) {
-        //   progress(0);
-        //   const token = _this.$store.getters.token;
-        //   getToken(token).then(response => {
-        //     const url = response.data.qiniu_url;
-        //     const formData = new FormData();
-        //     formData.append('token', response.data.qiniu_token);
-        //     formData.append('key', response.data.qiniu_key);
-        //     formData.append('file', blobInfo.blob(), url);
-        //     upload(formData).then(() => {
-        //       success(url);
-        //       progress(100);
-        //     })
-        //   }).catch(err => {
-        //     failure('出现未知问题，刷新页面，或者联系程序员')
-        //     console.log(err);
-        //   });
-        // },
+        }
       })
     },
     destroyTinymce() {
@@ -192,55 +167,52 @@ export default {
       if (this.fullscreen) {
         tinymce.execCommand('mceFullScreen')
       }
-
       if (tinymce) {
         tinymce.destroy()
       }
     },
     setContent(value) {
+      console.log(value)
       window.tinymce.get(this.tinymceId).setContent(value)
     },
     getContent() {
       window.tinymce.get(this.tinymceId).getContent()
     },
     imageSuccessCBK(arr) {
-      arr.forEach(v => window.tinymce.get(this.tinymceId).insertContent(`<img class="wscnph" src="${v.url}" >`))
+      console.log(arr)
+      const _this = this
+      arr.forEach(v => {
+        console.log(v)
+        window.tinymce.get(_this.tinymceId).insertContent(`<img class="wscnph" src="${v.url}" >`)
+      })
     }
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .tinymce-container {
   position: relative;
   line-height: normal;
+  width: 90%;
 }
-
-.tinymce-container {
-  ::v-deep {
-    .mce-fullscreen {
-      z-index: 10000;
-    }
-  }
+.tinymce-container>>>.mce-fullscreen {
+  z-index: 10000;
 }
-
 .tinymce-textarea {
   visibility: hidden;
   z-index: -1;
 }
-
 .editor-custom-btn-container {
   position: absolute;
   right: 4px;
   top: 4px;
   /*z-index: 2005;*/
 }
-
 .fullscreen .editor-custom-btn-container {
   z-index: 10000;
   position: fixed;
 }
-
 .editor-upload-btn {
   display: inline-block;
 }

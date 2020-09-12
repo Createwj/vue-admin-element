@@ -26,7 +26,8 @@
 
 <script>
 import { getToken } from '@/utils/auth'
-import { ajaxUrl, request } from '@/utils/request'
+import { ajaxUrl } from '@/utils/request'
+import request from '@/utils/request'
 export default {
   props: {
     value: {

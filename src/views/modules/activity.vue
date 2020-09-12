@@ -169,11 +169,8 @@
     </div>
 
     <!-- 新增或编辑弹窗 -->
-    <el-dialog :title="$t('table.'+textMap[dialogStatus])" :visible.sync="dialogAddOrUpdateVisible">
+    <el-dialog :title="$t('table.'+textMap[dialogStatus])" :visible.sync="dialogAddOrUpdateVisible" z-index="999" width="80%">
       <el-form ref="form" :inline="true" :model="form" :rules="rules" label-width="100px">
-        <el-form-item label="活动ID" prop="activityId">
-          <el-input v-model="form.activityId" placeholder="请输入活动ID" />
-        </el-form-item>
         <el-form-item label="活动名称" prop="activityName">
           <el-input v-model="form.activityName" placeholder="请输入活动名称" />
         </el-form-item>
@@ -221,7 +218,8 @@
         </el-form-item>
         <el-form-item label="详情" prop="activityDesc">
 
-          <el-input v-model="form.activityDesc" placeholder="请输入详情" />
+          <!--<el-input v-model="form.activityDesc" placeholder="请输入详情" />-->
+          <tinymce v-model="form.activityDesc" :height="300" />
 
         </el-form-item>
         <el-form-item label="是否付费" prop="isFree">
@@ -360,10 +358,10 @@ import { page, addObj, getObj, delObj, putObj } from '@/api/admin/activity'
 import MessageNotice from '@/components/Notice/MessageNotice'
 
 import picUpload from '@/components/pic-upload/index'
-
+import Tinymce from '@/components/Tinymce'
 export default {
   name: 'Activity',
-  components: { MessageNotice, picUpload },
+  components: { MessageNotice, picUpload, Tinymce },
   data() {
     return {
       message: '活动表',
@@ -390,16 +388,6 @@ export default {
         inputTime: ''
       },
       rules: {
-        activityId: [{
-          required: true,
-          message: '请输入活动ID',
-          trigger: 'blur'
-        }, {
-          min: 1,
-          max: 20,
-          message: '长度在 1 到 20 个字符',
-          trigger: 'blur'
-        }],
         activityName: [{
           required: true,
           message: '请输入活动名称',

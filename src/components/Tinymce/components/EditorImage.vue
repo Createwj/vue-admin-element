@@ -1,29 +1,35 @@
 <template>
   <div class="upload-container">
     <el-button :style="{background:color,borderColor:color}" icon="el-icon-upload" size="mini" type="primary" @click=" dialogVisible=true">
-      upload
+      上传图片
     </el-button>
     <el-dialog :visible.sync="dialogVisible">
       <el-upload
         :multiple="true"
         :file-list="fileList"
+        accept="image/*"
         :show-file-list="true"
         :on-remove="handleRemove"
         :on-success="handleSuccess"
         :before-upload="beforeUpload"
         class="editor-slide-upload"
-        action="https://httpbin.org/post"
+        :action="$http.adornUrl('/admin/file/tinymceEditor')"
         list-type="picture-card"
       >
-        <el-button size="small" type="primary">
-          Click upload
-        </el-button>
+        <!-- <el-button size="small" type="primary">
+          上传图片
+        </el-button> -->
+        <i class="el-icon-plus" />
+        <div slot="file" slot-scope="{file}" class="container">
+          <a @click="handleRemove(file)"><img class="delete" src="@/assets/pic_list_delete.png"></a>
+          <img class="pic" :src="file.url" alt="">
+        </div>
       </el-upload>
-      <el-button @click="dialogVisible = false">
-        Cancel
+      <el-button class="other-btns" @click="dialogVisible = false">
+        取消
       </el-button>
-      <el-button type="primary" @click="handleSubmit">
-        Confirm
+      <el-button type="primary" class="add-btns" @click="handleSubmit">
+        确定
       </el-button>
     </el-dialog>
   </div>
@@ -67,8 +73,13 @@ export default {
       const objKeyArr = Object.keys(this.listObj)
       for (let i = 0, len = objKeyArr.length; i < len; i++) {
         if (this.listObj[objKeyArr[i]].uid === uid) {
-          this.listObj[objKeyArr[i]].url = response.files.file
-          this.listObj[objKeyArr[i]].hasSuccess = true
+          if (file.response.code === '0000') {
+            this.listObj[objKeyArr[i]].url = file.response.filePath
+            this.listObj[objKeyArr[i]].hasSuccess = true
+          } else {
+            this.listObj[objKeyArr[i]].hasSuccess = false
+          }
+          this.fileList.push(this.listObj[objKeyArr[i]])
           return
         }
       }
@@ -79,6 +90,7 @@ export default {
       for (let i = 0, len = objKeyArr.length; i < len; i++) {
         if (this.listObj[objKeyArr[i]].uid === uid) {
           delete this.listObj[objKeyArr[i]]
+          this.fileList.splice(this.listObj[objKeyArr[i]], 1)
           return
         }
       }
@@ -104,8 +116,21 @@ export default {
 <style lang="scss" scoped>
 .editor-slide-upload {
   margin-bottom: 20px;
-  ::v-deep .el-upload--picture-card {
-    width: 100%;
+  /deep/ .el-upload--picture-card {
+    width: 148px;
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
   }
+}
+/deep/ .el-upload-list--picture-card .el-upload-list__item {
+  overflow: inherit;
+  background-color: #fff;
+  border: 1px solid #c0ccda;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  display: inline-block;
+  margin-right: 16px;
 }
 </style>
