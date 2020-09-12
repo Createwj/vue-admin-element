@@ -354,9 +354,11 @@
 import { page, addObj, getObj, delObj, putObj } from '@/api/admin/activity'
 import MessageNotice from '@/components/Notice/MessageNotice'
 
+import picUpload from '@/components/pic-upload/index'
+
 export default {
   name: 'Activity',
-  components: { MessageNotice },
+  components: { MessageNotice, picUpload },
   data() {
     return {
       message: '活动表',
