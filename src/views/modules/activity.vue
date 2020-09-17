@@ -13,9 +13,6 @@
     <!-- 搜索条件 -->
     <el-form ref="listQuery" :inline="true" :model="listQuery" label-width="90px">
       <div class="filter-container">
-        <el-form-item label="活动ID:">
-          <el-input v-model="listQuery.activityId" size="small" class="filter-item" placeholder="活动ID" />
-        </el-form-item>
 
         <el-form-item label="活动类型:">
           <el-input v-model="listQuery.activityType" size="small" class="filter-item" placeholder="活动类型" />
@@ -24,12 +21,7 @@
         <el-form-item label="是否付费:">
           <el-input v-model="listQuery.isFree" size="small" class="filter-item" placeholder="是否付费" />
         </el-form-item>
-        <el-form-item label="录入人:">
-          <el-input v-model="listQuery.inputUser" size="small" class="filter-item" placeholder="录入人" />
-        </el-form-item>
-        <el-form-item label="录入时间:">
-          <el-input v-model="listQuery.inputTime" size="small" class="filter-item" placeholder="录入时间" />
-        </el-form-item>
+
         <div class="seach-configbtn">
           <el-button class="filter-item other-btns" @click="handleFilter">{{ $t('table.search') }}</el-button>
           <el-button class="filter-item other-btns" style="margin-left:30px" @click="handleEmpty">{{ $t('table.empty') }}</el-button>
@@ -42,11 +34,6 @@
       <div class="table-customtitle">查询结果</div>
       <el-table :key="tableKey" v-loading.body="listLoading" :data="dataList" :header-cell-style="{background:'#F5F5F5'}" border fit highlight-current-row style="width: 100%">
         <el-table-column label="序号" type="index" width="50" />
-        <el-table-column align="center" label="活动ID">
-          <template slot-scope="scope">
-            <span>{{ scope.row.activityId }}</span>
-          </template>
-        </el-table-column>
         <el-table-column align="center" label="活动名称">
           <template slot-scope="scope">
             <span>{{ scope.row.activityName }}</span>
@@ -57,11 +44,12 @@
             <span>{{ scope.row.activityType }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="活动图片">
-          <template slot-scope="scope">
-            <span>{{ scope.row.activityImg }}</span>
-          </template>
-        </el-table-column>
+        <!--<el-table-column align="center" label="轮播图片">-->
+        <!--<template slot-scope="scope" v-for="item in scope.row.activityImg.split(',')">-->
+        <!--<img :src="item" alt="" width="30" height="30">-->
+
+        <!--</template>-->
+        <!--</el-table-column>-->
         <el-table-column align="center" label="开始地点">
           <template slot-scope="scope">
             <span>{{ scope.row.startAddr }}</span>
@@ -92,24 +80,9 @@
             <span>{{ scope.row.limitNum }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="报名人数">
-          <template slot-scope="scope">
-            <span>{{ scope.row.applyNum }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" label="活动状态">
-          <template slot-scope="scope">
-            <span>{{ scope.row.activitySta }}</span>
-          </template>
-        </el-table-column>
         <el-table-column align="center" label="浏览量">
           <template slot-scope="scope">
             <span>{{ scope.row.previewCount }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" label="详情">
-          <template slot-scope="scope">
-            <span>{{ scope.row.activityDesc }}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" label="是否付费">
@@ -129,17 +102,7 @@
         </el-table-column>
         <el-table-column align="center" label="活动二维码">
           <template slot-scope="scope">
-            <span>{{ scope.row.activityQrCode }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" label="录入人">
-          <template slot-scope="scope">
-            <span>{{ scope.row.inputUser }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" label="录入时间">
-          <template slot-scope="scope">
-            <span>{{ scope.row.inputTime }}</span>
+            <img :src="scope.row.activityQrCode" width="50" height="50" alt="">
           </template>
         </el-table-column>
         <el-table-column align="center" label="操作" width="300">
@@ -177,9 +140,7 @@
         <el-form-item label="活动类型" prop="activityType">
           <el-input v-model="form.activityType" placeholder="请输入活动类型" />
         </el-form-item>
-        <el-form-item label="活动图片" prop="activityImg">
-          <el-input v-model="form.activityImg" placeholder="请输入活动图片" />
-        </el-form-item>
+
         <el-form-item label="开始地点" prop="startAddr">
           <el-input v-model="form.startAddr" placeholder="请输入开始地点" />
         </el-form-item>
@@ -189,6 +150,7 @@
         <el-form-item label="开始时间" prop="startTime">
           <el-date-picker
             v-model="form.startTime"
+            value-format="yyyy-MM-dd HH:mm:ss"
             type="datetime"
             placeholder="选择开始时间"
           />
@@ -197,6 +159,7 @@
         <el-form-item label="结束时间" prop="endTime">
           <el-date-picker
             v-model="form.endTime"
+            value-format="yyyy-MM-dd HH:mm:ss"
             type="datetime"
             placeholder="请输入结束时间"
           />
@@ -207,21 +170,7 @@
         <el-form-item label="限制人数" prop="limitNum">
           <el-input v-model="form.limitNum" placeholder="请输入限制人数" />
         </el-form-item>
-        <el-form-item label="报名人数" prop="applyNum">
-          <el-input v-model="form.applyNum" placeholder="请输入报名人数" />
-        </el-form-item>
-        <el-form-item label="活动状态" prop="activitySta">
-          <el-input v-model="form.activitySta" placeholder="请输入活动状态" />
-        </el-form-item>
-        <el-form-item label="浏览量" prop="previewCount">
-          <el-input v-model="form.previewCount" placeholder="请输入浏览量" />
-        </el-form-item>
-        <el-form-item label="详情" prop="activityDesc">
 
-          <!--<el-input v-model="form.activityDesc" placeholder="请输入详情" />-->
-          <tinymce v-model="form.activityDesc" :height="300" />
-
-        </el-form-item>
         <el-form-item label="是否付费" prop="isFree">
 
           <!--<el-input v-model="form.isFree" placeholder="请输入是否付费" />-->
@@ -234,6 +183,22 @@
         <el-form-item label="活动积分" prop="activityIntegral">
           <el-input v-model="form.activityIntegral" placeholder="请输入活动积分" />
         </el-form-item>
+        <el-form-item label="详情" prop="activityDesc">
+
+          <!--<el-input v-model="form.activityDesc" placeholder="请输入详情" />-->
+          <tinymce v-model="form.activityDesc" :height="300" />
+
+        </el-form-item>
+        <el-form-item label="轮播图片" prop="activityImg">
+          <dropzone
+            id="myVueDropzone"
+            :url="uploadImgUrl"
+            @dropzone-removedFile="dropzoneR"
+            @dropzone-success="dropzoneS"
+          />
+          <!--<el-input v-model="form.activityImg" placeholder="请输入活动图片" />-->
+        </el-form-item>
+
         <el-form-item label="活动二维码" prop="activityQrCode">
 
           <!--<el-input v-model="form.activityQrCode" placeholder="请输入活动二维码2" />-->
@@ -243,16 +208,6 @@
 
           <picUpload v-model="form.activityQrCode" />
 
-        </el-form-item>
-        <el-form-item label="录入人" prop="inputUser">
-          <el-input v-model="form.inputUser" placeholder="请输入录入人" />
-        </el-form-item>
-        <el-form-item label="录入时间" prop="inputTime">
-          <el-date-picker
-            v-model="form.inputTime"
-            type="datetime"
-            placeholder="请输入录入时间"
-          />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -266,16 +221,13 @@
     <!-- 查看窗口 -->
     <el-dialog :title="$t('table.'+textMap[dialogStatus])" :visible.sync="dialogInfoVisible">
       <el-form ref="form" :model="form" label-width="100px">
-        <el-form-item label="活动ID" prop="activityId">
-          <el-input v-model="form.activityId" readonly="readonly" />
-        </el-form-item>
         <el-form-item label="活动名称" prop="activityName">
           <el-input v-model="form.activityName" readonly="readonly" />
         </el-form-item>
         <el-form-item label="活动类型" prop="activityType">
           <el-input v-model="form.activityType" readonly="readonly" />
         </el-form-item>
-        <el-form-item label="活动图片" prop="activityImg">
+        <el-form-item label="轮播图片" prop="activityImg">
           <el-input v-model="form.activityImg" readonly="readonly" />
         </el-form-item>
         <el-form-item label="开始地点" prop="startAddr">
@@ -308,15 +260,6 @@
         <el-form-item label="限制人数" prop="limitNum">
           <el-input v-model="form.limitNum" readonly="readonly" />
         </el-form-item>
-        <el-form-item label="报名人数" prop="applyNum">
-          <el-input v-model="form.applyNum" readonly="readonly" />
-        </el-form-item>
-        <el-form-item label="活动状态" prop="activitySta">
-          <el-input v-model="form.activitySta" readonly="readonly" />
-        </el-form-item>
-        <el-form-item label="浏览量" prop="previewCount">
-          <el-input v-model="form.previewCount" readonly="readonly" />
-        </el-form-item>
         <el-form-item label="详情" prop="activityDesc">
           <el-input v-model="form.activityDesc" readonly="readonly" />
         </el-form-item>
@@ -333,18 +276,6 @@
         <el-form-item label="活动二维码" prop="activityQrCode">
           <el-input v-model="form.activityQrCode" readonly="readonly" />
         </el-form-item>
-        <el-form-item label="录入人" prop="inputUser">
-          <el-input v-model="form.inputUser" readonly="readonly" />
-        </el-form-item>
-        <el-form-item label="录入时间" prop="inputTime">
-          <el-date-picker
-            v-model="form.inputTime"
-            readonly="readonly"
-            type="datetime"
-            placeholder="结束时间"
-          />
-          <!--<el-input v-model="form.inputTime" readonly="readonly" />-->
-        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="cancelView('form')">{{ $t('table.cancel') }}</el-button>
@@ -356,14 +287,16 @@
 <script>
 import { page, addObj, getObj, delObj, putObj } from '@/api/admin/activity'
 import MessageNotice from '@/components/Notice/MessageNotice'
-
+import Dropzone from '@/components/Dropzone'
 import picUpload from '@/components/pic-upload/index'
+import { ajaxUrl } from '@/utils/request'
 import Tinymce from '@/components/Tinymce'
 export default {
   name: 'Activity',
-  components: { MessageNotice, picUpload, Tinymce },
+  components: { MessageNotice, picUpload, Tinymce, Dropzone },
   data() {
     return {
+      imgList: [],
       message: '活动表',
       form: {
         activityId: '',
@@ -410,12 +343,7 @@ export default {
         }],
         activityImg: [{
           required: true,
-          message: '请输入活动图片',
-          trigger: 'blur'
-        }, {
-          min: 1,
-          max: 20,
-          message: '长度在 1 到 20 个字符',
+          message: '请输入轮播图片',
           trigger: 'blur'
         }],
         startAddr: [{
@@ -442,60 +370,20 @@ export default {
           required: true,
           message: '请输入开始时间',
           trigger: 'blur'
-        }, {
-          min: 1,
-          max: 20,
-          message: '长度在 1 到 20 个字符',
-          trigger: 'blur'
         }],
         endTime: [{
           required: true,
           message: '请输入结束时间',
-          trigger: 'blur'
-        }, {
-          min: 1,
-          max: 20,
-          message: '长度在 1 到 20 个字符',
           trigger: 'blur'
         }],
         activitySummary: [{
           required: true,
           message: '请输入活动简介',
           trigger: 'blur'
-        }, {
-          min: 1,
-          max: 20,
-          message: '长度在 1 到 20 个字符',
-          trigger: 'blur'
         }],
         limitNum: [{
           required: true,
           message: '请输入限制人数',
-          trigger: 'blur'
-        }, {
-          min: 1,
-          max: 20,
-          message: '长度在 1 到 20 个字符',
-          trigger: 'blur'
-        }],
-        applyNum: [{
-          required: true,
-          message: '请输入报名人数',
-          trigger: 'blur'
-        }, {
-          min: 1,
-          max: 20,
-          message: '长度在 1 到 20 个字符',
-          trigger: 'blur'
-        }],
-        activitySta: [{
-          required: true,
-          message: '请输入活动状态',
-          trigger: 'blur'
-        }, {
-          min: 1,
-          max: 20,
-          message: '长度在 1 到 20 个字符',
           trigger: 'blur'
         }],
         previewCount: [{
@@ -512,11 +400,6 @@ export default {
           required: true,
           message: '请输入详情',
           trigger: 'blur'
-        }, {
-          min: 1,
-          max: 20,
-          message: '长度在 1 到 20 个字符',
-          trigger: 'blur'
         }],
         isFree: [{
           required: true,
@@ -532,50 +415,15 @@ export default {
           required: true,
           message: '请输入价格',
           trigger: 'blur'
-        }, {
-          min: 1,
-          max: 20,
-          message: '长度在 1 到 20 个字符',
-          trigger: 'blur'
         }],
         activityIntegral: [{
           required: true,
           message: '请输入活动积分',
           trigger: 'blur'
-        }, {
-          min: 1,
-          max: 20,
-          message: '长度在 1 到 20 个字符',
-          trigger: 'blur'
         }],
         activityQrCode: [{
           required: true,
           message: '请输入活动二维码',
-          trigger: 'blur'
-        }, {
-          min: 1,
-          max: 20,
-          message: '长度在 1 到 20 个字符',
-          trigger: 'blur'
-        }],
-        inputUser: [{
-          required: true,
-          message: '请输入录入人',
-          trigger: 'blur'
-        }, {
-          min: 1,
-          max: 20,
-          message: '长度在 1 到 20 个字符',
-          trigger: 'blur'
-        }],
-        inputTime: [{
-          required: true,
-          message: '请输入录入时间',
-          trigger: 'blur'
-        }, {
-          min: 1,
-          max: 20,
-          message: '长度在 1 到 20 个字符',
           trigger: 'blur'
         }]
       },
@@ -615,7 +463,8 @@ export default {
         create: 'create',
         view: 'view'
       },
-      tableKey: 0
+      tableKey: 0,
+      uploadImgUrl: ajaxUrl + '/admin/file/element'
     }
   },
   created() {
@@ -832,6 +681,47 @@ export default {
         inputUser: '',
         inputTime: ''
       }
+    },
+    // 上传
+    dropzoneS(file) {
+      this.imgList.push(JSON.parse(file.xhr.response).data.filePath)
+
+      this.form.activityImg = this.imgList.join(',')
+
+      console.log('新增图片的数组')
+      console.log(this.form.activityImg)
+
+      this.$message({ message: 'Upload success', type: 'success' })
+    },
+    // 移除
+    dropzoneR(file) {
+      // 获取元素在数组的下标
+      Array.prototype.indexOf = function(val) {
+        for (var i = 0; i < this.length; i++) {
+          if (this[i] == val)	{
+            return i
+          }
+        }
+        return -1
+      }
+
+      // 根据数组的下标，删除该下标的元素
+      Array.prototype.remove = function(val) {
+        var index = this.indexOf(val)
+        if (index > -1) {
+          this.splice(index, 1)
+        }
+      }
+
+      const del = JSON.parse(file.xhr.response).data.filePath
+      const arr = this.imgList
+      arr.remove(del)
+      this.form.activityImg = arr.join(',')
+
+      console.log('删除图片之后剩余的数组')
+      console.log(this.form.activityImg)
+
+      this.$message({ message: 'Delete success', type: 'success' })
     }
   }
 }

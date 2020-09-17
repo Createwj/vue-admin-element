@@ -6,7 +6,6 @@
         <el-button class="filter-item add-btns" size="mini" style="margin-left: 10px;" @click="handleCreate">{{ $t('table.add') }}</el-button>
       </div>
     </div>
-    <message-notice :message="message" />
     <!-- 搜索条件 -->
     <el-form ref="listQuery" :model="listQuery" label-width="120px">
       <div class="filter-container">
@@ -188,7 +187,7 @@ export default {
       this.listLoading = true
       page(this.listQuery).then(res => {
         const data = res.data
-        this.dataList = data.ITEMS
+        this.dataList = data.items
         this.total = data.count
         this.listLoading = false
       }).catch(() => {

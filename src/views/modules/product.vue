@@ -6,45 +6,12 @@
         <el-button class="filter-item add-btns" size="mini" style="margin-left: 10px;" @click="handleCreate">{{ $t('table.add') }}</el-button>
       </div>
     </div>
-    <message-notice :message="message" />
     <!-- 搜索条件 -->
     <el-form ref="listQuery" :model="listQuery" label-width="120px">
       <div class="filter-container">
-
-        <el-form-item label="商品ID:">
-          <el-input v-model="listQuery.productId" size="small" class="filter-item" placeholder="商品ID" />
-        </el-form-item>
         <el-form-item label="商品名称:">
           <el-input v-model="listQuery.productName" size="small" class="filter-item" placeholder="商品名称" />
         </el-form-item>
-        <el-form-item label="商品图片:">
-          <el-input v-model="listQuery.productImg" size="small" class="filter-item" placeholder="商品图片" />
-        </el-form-item>
-        <el-form-item label="商品简介:">
-          <el-input v-model="listQuery.productSummary" size="small" class="filter-item" placeholder="商品简介" />
-        </el-form-item>
-        <el-form-item label="商品详情:">
-          <el-input v-model="listQuery.productDesc" size="small" class="filter-item" placeholder="商品详情" />
-        </el-form-item>
-        <el-form-item label="商品价格:">
-          <el-input v-model="listQuery.price" size="small" class="filter-item" placeholder="商品价格" />
-        </el-form-item>
-        <el-form-item label="商品积分:">
-          <el-input v-model="listQuery.integral" size="small" class="filter-item" placeholder="商品积分" />
-        </el-form-item>
-        <el-form-item label="商品状态:">
-          <el-input v-model="listQuery.productSta" size="small" class="filter-item" placeholder="商品状态" />
-        </el-form-item>
-        <el-form-item label="录入人:">
-          <el-input v-model="listQuery.inputUser" size="small" class="filter-item" placeholder="录入人" />
-        </el-form-item>
-        <el-form-item label="录入时间:">
-          <el-input v-model="listQuery.inputTime" size="small" class="filter-item" placeholder="录入时间" />
-        </el-form-item>
-        <div class="seach-configbtn">
-          <el-button class="filter-item other-btns" @click="handleFilter">{{ $t('table.search') }}</el-button>
-          <el-button class="filter-item other-btns" style="margin-left:30px" @click="handleEmpty">{{ $t('table.empty') }}</el-button>
-        </div>
       </div>
     </el-form>
 
@@ -53,11 +20,6 @@
       <div class="table-customtitle">查询结果</div>
       <el-table :key="tableKey" v-loading.body="listLoading" :data="dataList" :header-cell-style="{background:'#F5F5F5'}" border fit highlight-current-row style="width: 100%">
         <el-table-column label="序号" type="index" width="50" />
-        <el-table-column align="center" label="商品ID">
-          <template slot-scope="scope">
-            <span>{{ scope.row.productId }}</span>
-          </template>
-        </el-table-column>
         <el-table-column align="center" label="商品名称">
           <template slot-scope="scope">
             <span>{{ scope.row.productName }}</span>
@@ -93,16 +55,6 @@
             <span>{{ scope.row.productSta }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="录入人">
-          <template slot-scope="scope">
-            <span>{{ scope.row.inputUser }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" label="录入时间">
-          <template slot-scope="scope">
-            <span>{{ scope.row.inputTime }}</span>
-          </template>
-        </el-table-column>
         <el-table-column align="center" label="操作" width="300">
           <template slot-scope="scope">
             <span class="list-btns" @click="handleView(scope.row)">{{ $t('table.view') }}</span>
@@ -128,9 +80,7 @@
     <!-- 新增或编辑弹窗 -->
     <el-dialog :title="$t('table.'+textMap[dialogStatus])" :visible.sync="dialogAddOrUpdateVisible">
       <el-form ref="form" :model="form" :rules="rules" label-width="100px">
-        <el-form-item label="商品ID" prop="productId">
-          <el-input v-model="form.productId" placeholder="请输入商品ID" />
-        </el-form-item>
+
         <el-form-item label="商品名称" prop="productName">
           <el-input v-model="form.productName" placeholder="请输入商品名称" />
         </el-form-item>
@@ -140,9 +90,9 @@
         <el-form-item label="商品简介" prop="productSummary">
           <el-input v-model="form.productSummary" placeholder="请输入商品简介" />
         </el-form-item>
-        <el-form-item label="商品详情" prop="productDesc">
-          <el-input v-model="form.productDesc" placeholder="请输入商品详情" />
-        </el-form-item>
+        <!--<el-form-item label="商品详情" prop="productDesc">-->
+        <!--<el-input v-model="form.productDesc" placeholder="请输入商品详情" />-->
+        <!--</el-form-item>-->
         <el-form-item label="商品价格" prop="price">
           <el-input v-model="form.price" placeholder="请输入商品价格" />
         </el-form-item>
@@ -151,12 +101,6 @@
         </el-form-item>
         <el-form-item label="商品状态" prop="productSta">
           <el-input v-model="form.productSta" placeholder="请输入商品状态" />
-        </el-form-item>
-        <el-form-item label="录入人" prop="inputUser">
-          <el-input v-model="form.inputUser" placeholder="请输入录入人" />
-        </el-form-item>
-        <el-form-item label="录入时间" prop="inputTime">
-          <el-input v-model="form.inputTime" placeholder="请输入录入时间" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -170,9 +114,6 @@
     <!-- 查看窗口 -->
     <el-dialog :title="$t('table.'+textMap[dialogStatus])" :visible.sync="dialogInfoVisible">
       <el-form ref="form" :model="form" label-width="100px">
-        <el-form-item label="商品ID" prop="productId">
-          <el-input v-model="form.productId" readonly="readonly" />
-        </el-form-item>
         <el-form-item label="商品名称" prop="productName">
           <el-input v-model="form.productName" readonly="readonly" />
         </el-form-item>
@@ -193,12 +134,6 @@
         </el-form-item>
         <el-form-item label="商品状态" prop="productSta">
           <el-input v-model="form.productSta" readonly="readonly" />
-        </el-form-item>
-        <el-form-item label="录入人" prop="inputUser">
-          <el-input v-model="form.inputUser" readonly="readonly" />
-        </el-form-item>
-        <el-form-item label="录入时间" prop="inputTime">
-          <el-input v-model="form.inputTime" readonly="readonly" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -231,16 +166,6 @@ export default {
         inputTime: ''
       },
       rules: {
-        productId: [{
-          required: true,
-          message: '请输入商品ID',
-          trigger: 'blur'
-        }, {
-          min: 1,
-          max: 20,
-          message: '长度在 1 到 20 个字符',
-          trigger: 'blur'
-        }],
         productName: [{
           required: true,
           message: '请输入商品名称',
@@ -255,25 +180,10 @@ export default {
           required: true,
           message: '请输入商品图片',
           trigger: 'blur'
-        }, {
-          min: 1,
-          max: 20,
-          message: '长度在 1 到 20 个字符',
-          trigger: 'blur'
         }],
         productSummary: [{
           required: true,
           message: '请输入商品简介',
-          trigger: 'blur'
-        }, {
-          min: 1,
-          max: 20,
-          message: '长度在 1 到 20 个字符',
-          trigger: 'blur'
-        }],
-        productDesc: [{
-          required: true,
-          message: '请输入商品详情',
           trigger: 'blur'
         }, {
           min: 1,
@@ -304,26 +214,6 @@ export default {
         productSta: [{
           required: true,
           message: '请输入商品状态',
-          trigger: 'blur'
-        }, {
-          min: 1,
-          max: 20,
-          message: '长度在 1 到 20 个字符',
-          trigger: 'blur'
-        }],
-        inputUser: [{
-          required: true,
-          message: '请输入录入人',
-          trigger: 'blur'
-        }, {
-          min: 1,
-          max: 20,
-          message: '长度在 1 到 20 个字符',
-          trigger: 'blur'
-        }],
-        inputTime: [{
-          required: true,
-          message: '请输入录入时间',
           trigger: 'blur'
         }, {
           min: 1,
@@ -370,7 +260,7 @@ export default {
       this.listLoading = true
       page(this.listQuery).then(res => {
         const data = res.data
-        this.dataList = data.ITEMS
+        this.dataList = data.items
         this.total = data.count
         this.listLoading = false
       }).catch(() => {

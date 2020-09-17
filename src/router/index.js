@@ -161,18 +161,6 @@ export const asyncRoutes = [
       }
     ]
   },
-  {
-    path: '/Tinymce',
-    component: Layout,
-    children: [
-      {
-        path: 'Tinymce',
-        component: () => import('@/views/tinymce/tinymce'),
-        name: 'Tinymce',
-        meta: { title: '富文本', noCache: true }
-      }
-    ]
-  },
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }

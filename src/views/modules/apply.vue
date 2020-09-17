@@ -292,7 +292,7 @@ export default {
       this.listLoading = true
       page(this.listQuery).then(res => {
         const data = res.data
-        this.dataList = data.ITEMS
+        this.dataList = data.items
         this.total = data.count
         this.listLoading = false
       }).catch(() => {
