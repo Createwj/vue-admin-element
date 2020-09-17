@@ -2,22 +2,27 @@
   <div class="app-container calendar-list-container">
     <div class="main-titles">
       <div>商品表</div>
+      <br>
       <div class="add-box">
-        <el-button class="filter-item add-btns" size="mini" style="margin-left: 10px;" @click="handleCreate">{{ $t('table.add') }}</el-button>
+        <el-button type="primary" class="filter-item add-btns" style="margin-left: 10px;" @click="handleCreate">{{ $t('table.add') }}</el-button>
       </div>
     </div>
+    <br>
     <!-- 搜索条件 -->
-    <el-form ref="listQuery" :model="listQuery" label-width="120px">
+    <el-form ref="listQuery" :inline="true" :model="listQuery" label-width="120px">
       <div class="filter-container">
         <el-form-item label="商品名称:">
           <el-input v-model="listQuery.productName" size="small" class="filter-item" placeholder="商品名称" />
         </el-form-item>
+        <el-button type="primary" class="filter-item other-btns" @click="handleFilter">{{ $t('table.search') }}</el-button>
+        <el-button type="danger" class="filter-item other-btns" style="margin-left:30px" @click="handleEmpty">{{ $t('table.empty') }}</el-button>
       </div>
     </el-form>
 
     <!-- 数据列表 -->
     <div class="table-box">
       <div class="table-customtitle">查询结果</div>
+      <br>
       <el-table :key="tableKey" v-loading.body="listLoading" :data="dataList" :header-cell-style="{background:'#F5F5F5'}" border fit highlight-current-row style="width: 100%">
         <el-table-column label="序号" type="index" width="50" />
         <el-table-column align="center" label="商品名称">
@@ -57,9 +62,12 @@
         </el-table-column>
         <el-table-column align="center" label="操作" width="300">
           <template slot-scope="scope">
-            <span class="list-btns" @click="handleView(scope.row)">{{ $t('table.view') }}</span>
-            <span class="list-btns" @click="handleUpdate(scope.row)">{{ $t('table.edit') }}</span>
-            <span class="list-delete-btn" @click="handleDelete(scope.row)">{{ $t('table.delete') }}</span>
+            <el-button type="primary" class="filter-item other-btns" @click="handleView(scope.row)">{{ $t('table.view') }}</el-button>
+
+            <el-button type="primary" class="filter-item other-btns" @click="handleUpdate(scope.row)">{{ $t('table.edit') }}</el-button>
+
+            <el-button type="danger" class="filter-item other-btns" @click="handleDelete(scope.row)">{{ $t('table.delete') }}</el-button>
+
           </template>
         </el-table-column>
       </el-table>

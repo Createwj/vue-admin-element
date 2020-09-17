@@ -21,11 +21,9 @@
         <el-form-item label="是否付费:">
           <el-input v-model="listQuery.isFree" size="small" class="filter-item" placeholder="是否付费" />
         </el-form-item>
+        <el-button type="primary" class="filter-item other-btns" @click="handleFilter">{{ $t('table.search') }}</el-button>
+        <el-button type="danger" class="filter-item other-btns" style="margin-left:30px" @click="handleEmpty">{{ $t('table.empty') }}</el-button>
 
-        <div class="seach-configbtn">
-          <el-button class="filter-item other-btns" @click="handleFilter">{{ $t('table.search') }}</el-button>
-          <el-button class="filter-item other-btns" style="margin-left:30px" @click="handleEmpty">{{ $t('table.empty') }}</el-button>
-        </div>
       </div>
     </el-form>
 

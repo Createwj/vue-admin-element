@@ -2,53 +2,29 @@
   <div class="app-container calendar-list-container">
     <div class="main-titles">
       <div>报名表</div>
-      <div class="add-box">
-        <el-button class="filter-item add-btns" size="mini" style="margin-left: 10px;" @click="handleCreate">{{ $t('table.add') }}</el-button>
-      </div>
+      <!--<div class="add-box">-->
+      <!--<el-button class="filter-item add-btns" size="mini" style="margin-left: 10px;" @click="handleCreate">{{ $t('table.add') }}</el-button>-->
+      <!--</div>-->
     </div>
-    <message-notice :message="message" />
+    <br>
     <!-- 搜索条件 -->
-    <el-form ref="listQuery" :model="listQuery" label-width="120px">
+    <el-form ref="listQuery" :inline="true" :model="listQuery" label-width="120px">
       <div class="filter-container">
-
-        <el-form-item label="报名ID:">
-          <el-input v-model="listQuery.applyId" size="small" class="filter-item" placeholder="报名ID" />
-        </el-form-item>
         <el-form-item label="活动ID:">
           <el-input v-model="listQuery.totalIntegral" size="small" class="filter-item" placeholder="活动ID" />
         </el-form-item>
-        <el-form-item label="会员ID:">
-          <el-input v-model="listQuery.memberId" size="small" class="filter-item" placeholder="会员ID" />
-        </el-form-item>
-        <el-form-item label="会员名称:">
-          <el-input v-model="listQuery.memberName" size="small" class="filter-item" placeholder="会员名称" />
-        </el-form-item>
-        <el-form-item label="会员头像:">
-          <el-input v-model="listQuery.memberPhoto" size="small" class="filter-item" placeholder="会员头像" />
-        </el-form-item>
-        <el-form-item label="报名状态:">
-          <el-input v-model="listQuery.applySta" size="small" class="filter-item" placeholder="报名状态" />
-        </el-form-item>
-        <el-form-item label="报名时间:">
-          <el-input v-model="listQuery.applyTime" size="small" class="filter-item" placeholder="报名时间" />
-        </el-form-item>
-        <div class="seach-configbtn">
-          <el-button class="filter-item other-btns" @click="handleFilter">{{ $t('table.search') }}</el-button>
-          <el-button class="filter-item other-btns" style="margin-left:30px" @click="handleEmpty">{{ $t('table.empty') }}</el-button>
-        </div>
+        <el-button type="primary" class="filter-item other-btns" @click="handleFilter">{{ $t('table.search') }}</el-button>
+        <el-button type="danger" class="filter-item other-btns" style="margin-left:30px" @click="handleEmpty">{{ $t('table.empty') }}</el-button>
+
       </div>
     </el-form>
 
     <!-- 数据列表 -->
     <div class="table-box">
       <div class="table-customtitle">查询结果</div>
+      <br>
       <el-table :key="tableKey" v-loading.body="listLoading" :data="dataList" :header-cell-style="{background:'#F5F5F5'}" border fit highlight-current-row style="width: 100%">
         <el-table-column label="序号" type="index" width="50" />
-        <el-table-column align="center" label="报名ID">
-          <template slot-scope="scope">
-            <span>{{ scope.row.applyId }}</span>
-          </template>
-        </el-table-column>
         <el-table-column align="center" label="活动ID">
           <template slot-scope="scope">
             <span>{{ scope.row.totalIntegral }}</span>
@@ -81,9 +57,12 @@
         </el-table-column>
         <el-table-column align="center" label="操作" width="300">
           <template slot-scope="scope">
-            <span class="list-btns" @click="handleView(scope.row)">{{ $t('table.view') }}</span>
-            <span class="list-btns" @click="handleUpdate(scope.row)">{{ $t('table.edit') }}</span>
-            <span class="list-delete-btn" @click="handleDelete(scope.row)">{{ $t('table.delete') }}</span>
+            <el-button type="primary" class="filter-item other-btns" @click="handleView(scope.row)">{{ $t('table.view') }}</el-button>
+
+            <el-button type="primary" class="filter-item other-btns" @click="handleUpdate(scope.row)">{{ $t('table.edit') }}</el-button>
+
+            <el-button type="danger" class="filter-item other-btns" @click="handleDelete(scope.row)">{{ $t('table.delete') }}</el-button>
+
           </template>
         </el-table-column>
       </el-table>
@@ -104,9 +83,6 @@
     <!-- 新增或编辑弹窗 -->
     <el-dialog :title="$t('table.'+textMap[dialogStatus])" :visible.sync="dialogAddOrUpdateVisible">
       <el-form ref="form" :model="form" :rules="rules" label-width="100px">
-        <el-form-item label="报名ID" prop="applyId">
-          <el-input v-model="form.applyId" placeholder="请输入报名ID" />
-        </el-form-item>
         <el-form-item label="活动ID" prop="totalIntegral">
           <el-input v-model="form.totalIntegral" placeholder="请输入活动ID" />
         </el-form-item>
@@ -137,9 +113,6 @@
     <!-- 查看窗口 -->
     <el-dialog :title="$t('table.'+textMap[dialogStatus])" :visible.sync="dialogInfoVisible">
       <el-form ref="form" :model="form" label-width="100px">
-        <el-form-item label="报名ID" prop="applyId">
-          <el-input v-model="form.applyId" readonly="readonly" />
-        </el-form-item>
         <el-form-item label="活动ID" prop="totalIntegral">
           <el-input v-model="form.totalIntegral" readonly="readonly" />
         </el-form-item>
@@ -186,16 +159,6 @@ export default {
         applyTime: ''
       },
       rules: {
-        applyId: [{
-          required: true,
-          message: '请输入报名ID',
-          trigger: 'blur'
-        }, {
-          min: 1,
-          max: 20,
-          message: '长度在 1 到 20 个字符',
-          trigger: 'blur'
-        }],
         totalIntegral: [{
           required: true,
           message: '请输入活动ID',

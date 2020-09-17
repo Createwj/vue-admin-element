@@ -1,14 +1,15 @@
 <template>
   <div class="app-container calendar-list-container">
-    <div class="main-titles">
-      <div>会员账户记录</div>
-      <div class="add-box">
-        <el-button class="filter-item add-btns" size="mini" style="margin-left: 10px;" @click="handleCreate">{{ $t('table.add') }}</el-button>
-      </div>
-    </div>
-    <message-notice :message="message" />
+    <!--<div class="main-titles">-->
+    <!--<div>会员账户记录</div>-->
+    <!--<br>-->
+    <!--<div class="add-box">-->
+    <!--<el-button  type="primary"  class="filter-item add-btns" size="mini" style="margin-left: 10px;" @click="handleCreate">{{ $t('table.add') }}</el-button>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<message-notice :message="message" />-->
     <!-- 搜索条件 -->
-    <el-form ref="listQuery" :model="listQuery" label-width="120px">
+    <el-form ref="listQuery" :inline="true" :model="listQuery" label-width="120px">
       <div class="filter-container">
 
         <el-form-item label="会员ID:">
@@ -20,16 +21,8 @@
         <el-form-item label="积分类型:">
           <el-input v-model="listQuery.integralSta" size="small" class="filter-item" placeholder="积分类型" />
         </el-form-item>
-        <el-form-item label="录入时间:">
-          <el-input v-model="listQuery.inputTime" size="small" class="filter-item" placeholder="录入时间" />
-        </el-form-item>
-        <el-form-item label="备注:">
-          <el-input v-model="listQuery.remak" size="small" class="filter-item" placeholder="备注" />
-        </el-form-item>
-        <div class="seach-configbtn">
-          <el-button class="filter-item other-btns" @click="handleFilter">{{ $t('table.search') }}</el-button>
-          <el-button class="filter-item other-btns" style="margin-left:30px" @click="handleEmpty">{{ $t('table.empty') }}</el-button>
-        </div>
+        <el-button type="primary" class="filter-item other-btns" @click="handleFilter">{{ $t('table.search') }}</el-button>
+        <el-button type="danger" class="filter-item other-btns" style="margin-left:30px" @click="handleEmpty">{{ $t('table.empty') }}</el-button>
       </div>
     </el-form>
 
@@ -65,9 +58,11 @@
         </el-table-column>
         <el-table-column align="center" label="操作" width="300">
           <template slot-scope="scope">
-            <span class="list-btns" @click="handleView(scope.row)">{{ $t('table.view') }}</span>
-            <span class="list-btns" @click="handleUpdate(scope.row)">{{ $t('table.edit') }}</span>
-            <span class="list-delete-btn" @click="handleDelete(scope.row)">{{ $t('table.delete') }}</span>
+            <el-button type="primary" class="filter-item other-btns" @click="handleView(scope.row)">{{ $t('table.view') }}</el-button>
+
+            <el-button type="primary" class="filter-item other-btns" @click="handleUpdate(scope.row)">{{ $t('table.edit') }}</el-button>
+
+            <el-button type="danger" class="filter-item other-btns" @click="handleDelete(scope.row)">{{ $t('table.delete') }}</el-button>
           </template>
         </el-table-column>
       </el-table>
