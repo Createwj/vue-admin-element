@@ -2,55 +2,54 @@
   <div class="app-container calendar-list-container">
     <div class="main-titles">
       <div>订单表</div>
-      <div class="add-box">
-        <el-button class="filter-item add-btns" size="mini" style="margin-left: 10px;" @click="handleCreate">{{ $t('table.add') }}</el-button>
-      </div>
+      <br>
+      <!--      <div class="add-box">-->
+      <!--        <el-button class="filter-item add-btns" size="mini" style="margin-left: 10px;" @click="handleCreate">{{ $t('table.add') }}</el-button>-->
+      <!--      </div>-->
     </div>
-    <message-notice :message="message" />
     <!-- 搜索条件 -->
-    <el-form ref="listQuery" :model="listQuery" label-width="120px">
+    <el-form ref="listQuery" :inline="true" :model="listQuery" label-width="120px">
       <div class="filter-container">
 
-        <el-form-item label="订单ID:">
-          <el-input v-model="listQuery.orderId" size="small" class="filter-item" placeholder="订单ID" />
-        </el-form-item>
-        <el-form-item label="内容ID:">
-          <el-input v-model="listQuery.conId" size="small" class="filter-item" placeholder="内容ID" />
-        </el-form-item>
-        <el-form-item label="内容名称:">
-          <el-input v-model="listQuery.conName" size="small" class="filter-item" placeholder="内容名称" />
-        </el-form-item>
-        <el-form-item label="内容类型:">
-          <el-input v-model="listQuery.conType" size="small" class="filter-item" placeholder="内容类型" />
-        </el-form-item>
-        <el-form-item label="支付模式:">
-          <el-input v-model="listQuery.payModel" size="small" class="filter-item" placeholder="支付模式" />
-        </el-form-item>
-        <el-form-item label="支付金额:">
-          <el-input v-model="listQuery.payPrice" size="small" class="filter-item" placeholder="支付金额" />
-        </el-form-item>
+        <!--        <el-form-item label="订单ID:">-->
+        <!--          <el-input v-model="listQuery.orderId" size="small" class="filter-item" placeholder="订单ID" />-->
+        <!--        </el-form-item>-->
+        <!--        <el-form-item label="内容ID:">-->
+        <!--          <el-input v-model="listQuery.conId" size="small" class="filter-item" placeholder="内容ID" />-->
+        <!--        </el-form-item>-->
+        <!--        <el-form-item label="内容名称:">-->
+        <!--          <el-input v-model="listQuery.conName" size="small" class="filter-item" placeholder="内容名称" />-->
+        <!--        </el-form-item>-->
+        <!--        <el-form-item label="内容类型:">-->
+        <!--          <el-input v-model="listQuery.conType" size="small" class="filter-item" placeholder="内容类型" />-->
+        <!--        </el-form-item>-->
+        <!--        <el-form-item label="支付模式:">-->
+        <!--          <el-input v-model="listQuery.payModel" size="small" class="filter-item" placeholder="支付模式" />-->
+        <!--        </el-form-item>-->
+        <!--        <el-form-item label="支付金额:">-->
+        <!--          <el-input v-model="listQuery.payPrice" size="small" class="filter-item" placeholder="支付金额" />-->
+        <!--        </el-form-item>-->
         <el-form-item label="支付积分:">
           <el-input v-model="listQuery.payIntegral" size="small" class="filter-item" placeholder="支付积分" />
         </el-form-item>
-        <el-form-item label="支付时间:">
-          <el-input v-model="listQuery.payTime" size="small" class="filter-item" placeholder="支付时间" />
-        </el-form-item>
-        <el-form-item label="订单流水号:">
-          <el-input v-model="listQuery.orderNumber" size="small" class="filter-item" placeholder="订单流水号" />
-        </el-form-item>
-        <el-form-item label="订单状态:">
-          <el-input v-model="listQuery.orderSta" size="small" class="filter-item" placeholder="订单状态" />
-        </el-form-item>
-        <div class="seach-configbtn">
-          <el-button class="filter-item other-btns" @click="handleFilter">{{ $t('table.search') }}</el-button>
-          <el-button class="filter-item other-btns" style="margin-left:30px" @click="handleEmpty">{{ $t('table.empty') }}</el-button>
-        </div>
+        <!--        <el-form-item label="支付时间:">-->
+        <!--          <el-input v-model="listQuery.payTime" size="small" class="filter-item" placeholder="支付时间" />-->
+        <!--        </el-form-item>-->
+        <!--        <el-form-item label="订单流水号:">-->
+        <!--          <el-input v-model="listQuery.orderNumber" size="small" class="filter-item" placeholder="订单流水号" />-->
+        <!--        </el-form-item>-->
+        <!--        <el-form-item label="订单状态:">-->
+        <!--          <el-input v-model="listQuery.orderSta" size="small" class="filter-item" placeholder="订单状态" />-->
+        <!--        </el-form-item>-->
+        <el-button type="primary" class="filter-item other-btns" @click="handleFilter">{{ $t('table.search') }}</el-button>
+        <el-button type="danger" class="filter-item other-btns" style="margin-left:30px" @click="handleEmpty">{{ $t('table.empty') }}</el-button>
       </div>
     </el-form>
 
     <!-- 数据列表 -->
     <div class="table-box">
       <div class="table-customtitle">查询结果</div>
+      <br>
       <el-table :key="tableKey" v-loading.body="listLoading" :data="dataList" :header-cell-style="{background:'#F5F5F5'}" border fit highlight-current-row style="width: 100%">
         <el-table-column label="序号" type="index" width="50" />
         <el-table-column align="center" label="订单ID">
@@ -68,46 +67,49 @@
             <span>{{ scope.row.conName }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="内容类型">
-          <template slot-scope="scope">
-            <span>{{ scope.row.conType }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" label="支付模式">
-          <template slot-scope="scope">
-            <span>{{ scope.row.payModel }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" label="支付金额">
-          <template slot-scope="scope">
-            <span>{{ scope.row.payPrice }}</span>
-          </template>
-        </el-table-column>
+        <!--        <el-table-column align="center" label="内容类型">-->
+        <!--          <template slot-scope="scope">-->
+        <!--            <span>{{ scope.row.conType }}</span>-->
+        <!--          </template>-->
+        <!--        </el-table-column>-->
+        <!--        <el-table-column align="center" label="支付模式">-->
+        <!--          <template slot-scope="scope">-->
+        <!--            <span>{{ scope.row.payModel }}</span>-->
+        <!--          </template>-->
+        <!--        </el-table-column>-->
+        <!--        <el-table-column align="center" label="支付金额">-->
+        <!--          <template slot-scope="scope">-->
+        <!--            <span>{{ scope.row.payPrice }}</span>-->
+        <!--          </template>-->
+        <!--        </el-table-column>-->
         <el-table-column align="center" label="支付积分">
           <template slot-scope="scope">
             <span>{{ scope.row.payIntegral }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="支付时间">
-          <template slot-scope="scope">
-            <span>{{ scope.row.payTime }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" label="订单流水号">
-          <template slot-scope="scope">
-            <span>{{ scope.row.orderNumber }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" label="订单状态">
-          <template slot-scope="scope">
-            <span>{{ scope.row.orderSta }}</span>
-          </template>
-        </el-table-column>
+        <!--        <el-table-column align="center" label="支付时间">-->
+        <!--          <template slot-scope="scope">-->
+        <!--            <span>{{ scope.row.payTime }}</span>-->
+        <!--          </template>-->
+        <!--        </el-table-column>-->
+        <!--        <el-table-column align="center" label="订单流水号">-->
+        <!--          <template slot-scope="scope">-->
+        <!--            <span>{{ scope.row.orderNumber }}</span>-->
+        <!--          </template>-->
+        <!--        </el-table-column>-->
+        <!--        <el-table-column align="center" label="订单状态">-->
+        <!--          <template slot-scope="scope">-->
+        <!--            <span>{{ scope.row.orderSta }}</span>-->
+        <!--          </template>-->
+        <!--        </el-table-column>-->
         <el-table-column align="center" label="操作" width="300">
           <template slot-scope="scope">
-            <span class="list-btns" @click="handleView(scope.row)">{{ $t('table.view') }}</span>
-            <span class="list-btns" @click="handleUpdate(scope.row)">{{ $t('table.edit') }}</span>
-            <span class="list-delete-btn" @click="handleDelete(scope.row)">{{ $t('table.delete') }}</span>
+            <!--查看-->
+            <!--            <el-button type="primary" @click="handleView(scope.row)">{{ $t('table.view') }}</el-button>-->
+            <!--编辑-->
+            <el-button type="primary" @click="handleUpdate(scope.row)">{{ $t('table.edit') }}</el-button>
+            <!--删除-->
+            <el-button type="danger" @click="handleDelete(scope.row)">{{ $t('table.delete') }}</el-button>
           </template>
         </el-table-column>
       </el-table>

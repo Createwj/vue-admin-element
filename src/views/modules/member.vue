@@ -3,9 +3,9 @@
     <div class="main-titles">
       <div>会员表</div>
       <br>
-      <div class="add-box">
-        <el-button type="primary" class="filter-item add-btns" size="mini" style="margin-left: 10px;" @click="handleCreate">{{ $t('table.add') }}</el-button>
-      </div>
+      <!--      <div class="add-box">-->
+      <!--        <el-button type="primary" class="filter-item add-btns" size="mini" style="margin-left: 10px;" @click="handleCreate">{{ $t('table.add') }}</el-button>-->
+      <!--      </div>-->
     </div>
     <br>
     <!-- 搜索条件 -->
@@ -90,7 +90,7 @@
         </el-table-column>
         <el-table-column align="center" label="操作" width="300">
           <template slot-scope="scope">
-            <el-button type="primary" class="filter-item other-btns" @click="handleView(scope.row)">{{ $t('table.view') }}</el-button>
+            <!--            <el-button type="primary" class="filter-item other-btns" @click="handleView(scope.row)">{{ $t('table.view') }}</el-button>-->
 
             <el-button type="primary" class="filter-item other-btns" @click="handleUpdate(scope.row)">{{ $t('table.edit') }}</el-button>
 

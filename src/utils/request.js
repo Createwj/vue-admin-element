@@ -5,8 +5,9 @@ import { getToken } from '@/utils/auth'
 
 // 本地
 // export const ajaxUrl = 'http://192.168.1.7:8012'
-// export const ajaxUrl = 'http://39.100.199.170:8012'    // 服务器
-export const ajaxUrl = 'https://api.huanyubike.com' // 服务器
+// export const ajaxUrl = 'http://192.168.1.8:8012'
+export const ajaxUrl = 'https://www.huanyubike.com' // 服务器
+// export const ajaxUrl = 'https://api.huanyubike.com' // 服务器
 // create an axios instance
 const service = axios.create({
   baseURL: ajaxUrl,

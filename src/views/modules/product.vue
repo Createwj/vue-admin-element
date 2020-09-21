@@ -32,7 +32,8 @@
         </el-table-column>
         <el-table-column align="center" label="商品图片">
           <template slot-scope="scope">
-            <span>{{ scope.row.productImg }}</span>
+            <!--            <picUpload v-model="scope.row.productImg" />-->
+            <img :src="scope.row.productImg" width="50" height="50" alt="">
           </template>
         </el-table-column>
         <el-table-column align="center" label="商品简介">
@@ -40,11 +41,11 @@
             <span>{{ scope.row.productSummary }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="商品详情">
-          <template slot-scope="scope">
-            <span>{{ scope.row.productDesc }}</span>
-          </template>
-        </el-table-column>
+        <!--        <el-table-column align="center" label="商品详情">-->
+        <!--          <template slot-scope="scope">-->
+        <!--            <span>{{ scope.row.productDesc }}</span>-->
+        <!--          </template>-->
+        <!--        </el-table-column>-->
         <el-table-column align="center" label="商品价格">
           <template slot-scope="scope">
             <span>{{ scope.row.price }}</span>
@@ -55,14 +56,19 @@
             <span>{{ scope.row.integral }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="商品状态">
+        <el-table-column align="center" label="商品库存">
           <template slot-scope="scope">
-            <span>{{ scope.row.productSta }}</span>
+            <span>{{ scope.row.productNumber }}</span>
           </template>
         </el-table-column>
+        <!--        <el-table-column align="center" label="商品状态">-->
+        <!--          <template slot-scope="scope">-->
+        <!--            <span>{{ scope.row.productSta }}</span>-->
+        <!--          </template>-->
+        <!--        </el-table-column>-->
         <el-table-column align="center" label="操作" width="300">
           <template slot-scope="scope">
-            <el-button type="primary" class="filter-item other-btns" @click="handleView(scope.row)">{{ $t('table.view') }}</el-button>
+            <!--            <el-button type="primary" class="filter-item other-btns" @click="handleView(scope.row)">{{ $t('table.view') }}</el-button>-->
 
             <el-button type="primary" class="filter-item other-btns" @click="handleUpdate(scope.row)">{{ $t('table.edit') }}</el-button>
 
@@ -93,7 +99,8 @@
           <el-input v-model="form.productName" placeholder="请输入商品名称" />
         </el-form-item>
         <el-form-item label="商品图片" prop="productImg">
-          <el-input v-model="form.productImg" placeholder="请输入商品图片" />
+          <picUpload v-model="form.productImg" />
+          <!--          <el-input v-model="form.productImg" placeholder="请输入商品图片" />-->
         </el-form-item>
         <el-form-item label="商品简介" prop="productSummary">
           <el-input v-model="form.productSummary" placeholder="请输入商品简介" />
@@ -107,9 +114,12 @@
         <el-form-item label="商品积分" prop="integral">
           <el-input v-model="form.integral" placeholder="请输入商品积分" />
         </el-form-item>
-        <el-form-item label="商品状态" prop="productSta">
-          <el-input v-model="form.productSta" placeholder="请输入商品状态" />
+        <el-form-item label="商品库存" prop="productNumber">
+          <el-input v-model="form.productNumber" type="number" placeholder="请输入商品库存" />
         </el-form-item>
+        <!--        <el-form-item label="商品状态" prop="productSta">-->
+        <!--          <el-input v-model="form.productSta" placeholder="请输入商品状态" />-->
+        <!--        </el-form-item>-->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="cancel('form')">{{ $t('table.cancel') }}</el-button>
@@ -140,9 +150,12 @@
         <el-form-item label="商品积分" prop="integral">
           <el-input v-model="form.integral" readonly="readonly" />
         </el-form-item>
-        <el-form-item label="商品状态" prop="productSta">
-          <el-input v-model="form.productSta" readonly="readonly" />
+        <el-form-item label="商品库存" prop="productNumber">
+          <el-input v-model="form.productNumber" readonly="readonly" />
         </el-form-item>
+        <!--        <el-form-item label="商品状态" prop="productSta">-->
+        <!--          <el-input v-model="form.productSta" readonly="readonly" />-->
+        <!--        </el-form-item>-->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="cancelView('form')">{{ $t('table.cancel') }}</el-button>
@@ -153,11 +166,10 @@
 
 <script>
 import { page, addObj, getObj, delObj, putObj } from '@/api/admin/product'
-import MessageNotice from '@/components/Notice/MessageNotice'
-
+import picUpload from '@/components/pic-upload/index'
 export default {
   name: 'Product',
-  components: { MessageNotice },
+  components: { picUpload },
   data() {
     return {
       message: '商品表',
@@ -169,6 +181,7 @@ export default {
         productDesc: '',
         price: '',
         integral: '',
+        productNumber: '',
         productSta: '',
         inputUser: '',
         inputTime: ''
@@ -177,11 +190,6 @@ export default {
         productName: [{
           required: true,
           message: '请输入商品名称',
-          trigger: 'blur'
-        }, {
-          min: 1,
-          max: 20,
-          message: '长度在 1 到 20 个字符',
           trigger: 'blur'
         }],
         productImg: [{
@@ -193,40 +201,25 @@ export default {
           required: true,
           message: '请输入商品简介',
           trigger: 'blur'
-        }, {
-          min: 1,
-          max: 20,
-          message: '长度在 1 到 20 个字符',
-          trigger: 'blur'
         }],
         price: [{
           required: true,
           message: '请输入商品价格',
-          trigger: 'blur'
-        }, {
-          min: 1,
-          max: 20,
-          message: '长度在 1 到 20 个字符',
           trigger: 'blur'
         }],
         integral: [{
           required: true,
           message: '请输入商品积分',
           trigger: 'blur'
-        }, {
-          min: 1,
-          max: 20,
-          message: '长度在 1 到 20 个字符',
+        }],
+        productNumber: [{
+          required: true,
+          message: '请输入商品库存',
           trigger: 'blur'
         }],
         productSta: [{
           required: true,
           message: '请输入商品状态',
-          trigger: 'blur'
-        }, {
-          min: 1,
-          max: 20,
-          message: '长度在 1 到 20 个字符',
           trigger: 'blur'
         }]
       },
@@ -244,6 +237,7 @@ export default {
         productDesc: '',
         price: '',
         integral: '',
+        productNumber: '',
         productSta: '',
         inputUser: '',
         inputTime: ''
@@ -287,6 +281,7 @@ export default {
       this.listQuery.productDesc = undefined
       this.listQuery.price = undefined
       this.listQuery.integral = undefined
+      this.listQuery.productNumber = undefined
       this.listQuery.productSta = undefined
       this.listQuery.inputUser = undefined
       this.listQuery.inputTime = undefined
@@ -321,6 +316,7 @@ export default {
         this.form.productDesc = data.productDesc
         this.form.price = data.price
         this.form.integral = data.integral
+        this.form.productNumber = data.productNumber
         this.form.productSta = data.productSta
         this.form.inputUser = data.inputUser
         this.form.inputTime = data.inputTime
@@ -339,6 +335,7 @@ export default {
         this.form.productDesc = data.productDesc
         this.form.price = data.price
         this.form.integral = data.integral
+        this.form.productNumber = data.productNumber
         this.form.productSta = data.productSta
         this.form.inputUser = data.inputUser
         this.form.inputTime = data.inputTime
@@ -430,6 +427,7 @@ export default {
         productDesc: '',
         price: '',
         integral: '',
+        productNumber: '',
         productSta: '',
         inputUser: '',
         inputTime: ''

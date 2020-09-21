@@ -37,3 +37,11 @@ export function putObj(obj) {
     data: obj
   })
 }
+
+export function editScore(obj) {
+  return request({
+    url: '/admin/memberAccount/operateIntegral',
+    method: 'post',
+    data: obj
+  })
+}

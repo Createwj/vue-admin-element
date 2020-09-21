@@ -15,11 +15,25 @@
       <div class="filter-container">
 
         <el-form-item label="活动类型:">
-          <el-input v-model="listQuery.activityType" size="small" class="filter-item" placeholder="活动类型" />
+          <el-select v-model="listQuery.activityType" placeholder="请选择">
+            <el-option
+              v-for="item in optionsDate"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
         </el-form-item>
-
         <el-form-item label="是否付费:">
-          <el-input v-model="listQuery.isFree" size="small" class="filter-item" placeholder="是否付费" />
+          <el-select v-model="listQuery.isFree" placeholder="请选择">
+            <el-option
+              v-for="item in optionFree"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+          <!--          <el-input v-model="listQuery.isFree" size="small" class="filter-item" placeholder="是否付费" />-->
         </el-form-item>
         <el-button type="primary" class="filter-item other-btns" @click="handleFilter">{{ $t('table.search') }}</el-button>
         <el-button type="danger" class="filter-item other-btns" style="margin-left:30px" @click="handleEmpty">{{ $t('table.empty') }}</el-button>
@@ -30,6 +44,7 @@
     <!-- 数据列表 -->
     <div class="table-box">
       <div class="table-customtitle">查询结果</div>
+      <br>
       <el-table :key="tableKey" v-loading.body="listLoading" :data="dataList" :header-cell-style="{background:'#F5F5F5'}" border fit highlight-current-row style="width: 100%">
         <el-table-column label="序号" type="index" width="50" />
         <el-table-column align="center" label="活动名称">
@@ -39,7 +54,7 @@
         </el-table-column>
         <el-table-column align="center" label="活动类型">
           <template slot-scope="scope">
-            <span>{{ scope.row.activityType }}</span>
+            <span>{{ optionsDates[scope.row.activityType].label }}</span>
           </template>
         </el-table-column>
         <!--<el-table-column align="center" label="轮播图片">-->
@@ -85,7 +100,7 @@
         </el-table-column>
         <el-table-column align="center" label="是否付费">
           <template slot-scope="scope">
-            <span>{{ scope.row.isFree }}</span>
+            <span>{{ scope.row.isFree === '0' ? '免费' : '付费' }}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" label="价格">
@@ -106,7 +121,7 @@
         <el-table-column align="center" label="操作" width="300">
           <template slot-scope="scope">
             <!--查看-->
-            <el-button type="primary" @click="handleView(scope.row)">{{ $t('table.view') }}</el-button>
+            <!--            <el-button type="primary" @click="handleView(scope.row)">{{ $t('table.view') }}</el-button>-->
             <!--编辑-->
             <el-button type="primary" @click="handleUpdate(scope.row)">{{ $t('table.edit') }}</el-button>
             <!--删除-->
@@ -136,7 +151,15 @@
           <el-input v-model="form.activityName" placeholder="请输入活动名称" />
         </el-form-item>
         <el-form-item label="活动类型" prop="activityType">
-          <el-input v-model="form.activityType" placeholder="请输入活动类型" />
+          <el-select v-model="form.activityType" placeholder="请选择">
+            <el-option
+              v-for="item in optionsDate"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+          <!--          <el-input v-model="form.activityType" placeholder="请输入活动类型" />-->
         </el-form-item>
 
         <el-form-item label="开始地点" prop="startAddr">
@@ -291,9 +314,64 @@ import { ajaxUrl } from '@/utils/request'
 import Tinymce from '@/components/Tinymce'
 export default {
   name: 'Activity',
-  components: { MessageNotice, picUpload, Tinymce, Dropzone },
+  components: { picUpload, Tinymce, Dropzone },
   data() {
     return {
+      optionFree: [{
+        value: '0',
+        label: '免费'
+      }, {
+        value: '1',
+        label: '付费'
+      }],
+      optionFrees: [{
+        value: '9',
+        label: '免费'
+      },
+      {
+        value: '0',
+        label: '免费'
+      }, {
+        value: '1',
+        label: '付费'
+      }],
+      optionsDate: [{
+        value: 1,
+        label: '初级组'
+      }, {
+        value: 2,
+        label: '中级组'
+      }, {
+        value: 3,
+        label: '高级组'
+      }, {
+        value: 4,
+        label: '专业组'
+      }, {
+        value: 5,
+        label: '比赛组'
+      }],
+      optionsDates: [
+        {
+          value: 0,
+          label: '初级组'
+        },
+        {
+          value: 1,
+          label: '初级组'
+        }, {
+          value: 2,
+          label: '中级组'
+        }, {
+          value: 3,
+          label: '高级组'
+        }, {
+          value: 4,
+          label: '专业组'
+        }, {
+          value: 5,
+          label: '比赛组'
+        }],
       imgList: [],
       message: '活动表',
       form: {
@@ -323,20 +401,10 @@ export default {
           required: true,
           message: '请输入活动名称',
           trigger: 'blur'
-        }, {
-          min: 1,
-          max: 20,
-          message: '长度在 1 到 20 个字符',
-          trigger: 'blur'
         }],
         activityType: [{
           required: true,
           message: '请输入活动类型',
-          trigger: 'blur'
-        }, {
-          min: 1,
-          max: 20,
-          message: '长度在 1 到 20 个字符',
           trigger: 'blur'
         }],
         activityImg: [{
@@ -348,20 +416,10 @@ export default {
           required: true,
           message: '请输入开始地点',
           trigger: 'blur'
-        }, {
-          min: 1,
-          max: 20,
-          message: '长度在 1 到 20 个字符',
-          trigger: 'blur'
         }],
         endAddr: [{
           required: true,
           message: '请输入结束地点',
-          trigger: 'blur'
-        }, {
-          min: 1,
-          max: 20,
-          message: '长度在 1 到 20 个字符',
           trigger: 'blur'
         }],
         startTime: [{
@@ -388,11 +446,6 @@ export default {
           required: true,
           message: '请输入浏览量',
           trigger: 'blur'
-        }, {
-          min: 1,
-          max: 20,
-          message: '长度在 1 到 20 个字符',
-          trigger: 'blur'
         }],
         activityDesc: [{
           required: true,
@@ -402,11 +455,6 @@ export default {
         isFree: [{
           required: true,
           message: '请输入是否付费',
-          trigger: 'blur'
-        }, {
-          min: 1,
-          max: 20,
-          message: '长度在 1 到 20 个字符',
           trigger: 'blur'
         }],
         price: [{

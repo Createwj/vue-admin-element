@@ -10,11 +10,11 @@
     <!-- 搜索条件 -->
     <el-form ref="listQuery" :inline="true" :model="listQuery" label-width="120px">
       <div class="filter-container">
-        <el-form-item label="活动ID:">
-          <el-input v-model="listQuery.totalIntegral" size="small" class="filter-item" placeholder="活动ID" />
-        </el-form-item>
-        <el-button type="primary" class="filter-item other-btns" @click="handleFilter">{{ $t('table.search') }}</el-button>
-        <el-button type="danger" class="filter-item other-btns" style="margin-left:30px" @click="handleEmpty">{{ $t('table.empty') }}</el-button>
+        <!--        <el-form-item label="活动ID:">-->
+        <!--          <el-input v-model="listQuery.totalIntegral" size="small" class="filter-item" placeholder="活动ID" />-->
+        <!--        </el-form-item>-->
+        <!--        <el-button type="primary" class="filter-item other-btns" @click="handleFilter">{{ $t('table.search') }}</el-button>-->
+        <!--        <el-button type="danger" class="filter-item other-btns" style="margin-left:30px" @click="handleEmpty">{{ $t('table.empty') }}</el-button>-->
 
       </div>
     </el-form>
@@ -25,11 +25,11 @@
       <br>
       <el-table :key="tableKey" v-loading.body="listLoading" :data="dataList" :header-cell-style="{background:'#F5F5F5'}" border fit highlight-current-row style="width: 100%">
         <el-table-column label="序号" type="index" width="50" />
-        <el-table-column align="center" label="活动ID">
-          <template slot-scope="scope">
-            <span>{{ scope.row.totalIntegral }}</span>
-          </template>
-        </el-table-column>
+        <!--        <el-table-column align="center" label="活动ID">-->
+        <!--          <template slot-scope="scope">-->
+        <!--            <span>{{ scope.row.totalIntegral }}</span>-->
+        <!--          </template>-->
+        <!--        </el-table-column>-->
         <el-table-column align="center" label="会员ID">
           <template slot-scope="scope">
             <span>{{ scope.row.memberId }}</span>
@@ -42,7 +42,8 @@
         </el-table-column>
         <el-table-column align="center" label="会员头像">
           <template slot-scope="scope">
-            <span>{{ scope.row.memberPhoto }}</span>
+            <img :src="scope.row.memberPhoto" width="50" height="50" alt="">
+            <!--            <span>{{  }}</span>-->
           </template>
         </el-table-column>
         <el-table-column align="center" label="报名状态">
@@ -50,14 +51,14 @@
             <span>{{ scope.row.applySta }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="报名时间">
-          <template slot-scope="scope">
-            <span>{{ scope.row.applyTime }}</span>
-          </template>
-        </el-table-column>
+        <!--        <el-table-column align="center" label="报名时间">-->
+        <!--          <template slot-scope="scope">-->
+        <!--            <span>{{ scope.row.applyTime }}</span>-->
+        <!--          </template>-->
+        <!--        </el-table-column>-->
         <el-table-column align="center" label="操作" width="300">
           <template slot-scope="scope">
-            <el-button type="primary" class="filter-item other-btns" @click="handleView(scope.row)">{{ $t('table.view') }}</el-button>
+            <!--            <el-button type="primary" class="filter-item other-btns" @click="handleView(scope.row)">{{ $t('table.view') }}</el-button>-->
 
             <el-button type="primary" class="filter-item other-btns" @click="handleUpdate(scope.row)">{{ $t('table.edit') }}</el-button>
 
@@ -83,9 +84,9 @@
     <!-- 新增或编辑弹窗 -->
     <el-dialog :title="$t('table.'+textMap[dialogStatus])" :visible.sync="dialogAddOrUpdateVisible">
       <el-form ref="form" :model="form" :rules="rules" label-width="100px">
-        <el-form-item label="活动ID" prop="totalIntegral">
-          <el-input v-model="form.totalIntegral" placeholder="请输入活动ID" />
-        </el-form-item>
+        <!--        <el-form-item label="活动ID" prop="totalIntegral">-->
+        <!--          <el-input v-model="form.totalIntegral" placeholder="请输入活动ID" />-->
+        <!--        </el-form-item>-->
         <el-form-item label="会员ID" prop="memberId">
           <el-input v-model="form.memberId" placeholder="请输入会员ID" />
         </el-form-item>

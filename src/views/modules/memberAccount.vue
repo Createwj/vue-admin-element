@@ -10,17 +10,17 @@
     <el-form ref="listQuery" :inline="true" :model="listQuery" label-width="120px">
       <div class="filter-container">
 
-        <el-form-item label="会员ID:">
-          <el-input v-model="listQuery.memberId" size="small" class="filter-item" placeholder="会员ID" />
+        <!--        <el-form-item label="会员ID:">-->
+        <!--          <el-input v-model="listQuery.memberId" size="small" class="filter-item" placeholder="会员ID" />-->
+        <!--        </el-form-item>-->
+        <!--        <el-form-item label="总积分:">-->
+        <!--        <el-input v-model="listQuery.totalIntegral" size="small" class="filter-item" placeholder="总积分" />-->
+        <!--        </el-form-item>-->
+        <el-form-item label="会员名称:">
+          <el-input v-model="listQuery.memberName" size="small" class="filter-item" placeholder="会员名称" />
         </el-form-item>
         <el-button type="primary" class="filter-item other-btns" @click="handleFilter">{{ $t('table.search') }}</el-button>
         <el-button type="danger" class="filter-item other-btns" style="margin-left:30px" @click="handleEmpty">{{ $t('table.empty') }}</el-button>
-        <!--<el-form-item label="总积分:">-->
-        <!--<el-input v-model="listQuery.totalIntegral" size="small" class="filter-item" placeholder="总积分" />-->
-        <!--</el-form-item>-->
-        <!--<el-form-item label="当前积分:">-->
-        <!--<el-input v-model="listQuery.integral" size="small" class="filter-item" placeholder="当前积分" />-->
-        <!--</el-form-item>-->
 
       </div>
     </el-form>
@@ -31,9 +31,14 @@
       <br>
       <el-table :key="tableKey" v-loading.body="listLoading" :data="dataList" :header-cell-style="{background:'#F5F5F5'}" border fit highlight-current-row style="width: 100%">
         <el-table-column label="序号" type="index" width="50" />
-        <el-table-column align="center" label="会员ID">
+        <!--        <el-table-column align="center" label="会员ID">-->
+        <!--          <template slot-scope="scope">-->
+        <!--            <span>{{ scope.row.memberId }}</span>-->
+        <!--          </template>-->
+        <!--        </el-table-column>-->
+        <el-table-column align="center" label="会员名称">
           <template slot-scope="scope">
-            <span>{{ scope.row.memberId }}</span>
+            <span>{{ scope.row.memberName }}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" label="总积分">
@@ -48,15 +53,13 @@
         </el-table-column>
         <el-table-column align="center" label="操作" width="300">
           <template slot-scope="scope">
-            <el-button type="primary" class="filter-item other-btns" @click="handleView(scope.row)">{{ $t('table.view') }}</el-button>
+            <!--            <el-button type="primary" class="filter-item other-btns" @click="handleView(scope.row)">{{ $t('table.view') }}</el-button>-->
 
-            <el-button type="primary" class="filter-item other-btns" @click="handleUpdate(scope.row)">{{ $t('table.edit') }}</el-button>
+            <el-button type="primary" class="filter-item other-btns" @click="handleUpdate(scope.row, 0)">新增</el-button>
+            <el-button type="primary" class="filter-item other-btns" @click="handleUpdate(scope.row), 1">删减</el-button>
 
-            <el-button type="danger" class="filter-item other-btns" @click="handleDelete(scope.row)">{{ $t('table.delete') }}</el-button>
+            <!--            <el-button type="danger" class="filter-item other-btns" @click="handleDelete(scope.row)">{{ $t('table.delete') }}</el-button>-->
 
-            <!--<span class="list-btns">1{{ $t('table.view') }}</span>-->
-            <!--<span class="list-btns" >2{{ $t('table.edit') }}</span>-->
-            <!--<span class="list-delete-btn" >3{{ $t('table.delete') }}</span>-->
           </template>
         </el-table-column>
       </el-table>
@@ -77,14 +80,20 @@
     <!-- 新增或编辑弹窗 -->
     <el-dialog :title="$t('table.'+textMap[dialogStatus])" :visible.sync="dialogAddOrUpdateVisible">
       <el-form ref="form" :model="form" :rules="rules" label-width="100px">
-        <el-form-item label="会员ID" prop="memberId">
-          <el-input v-model="form.memberId" placeholder="请输入会员ID" />
+        <!--        <el-form-item label="会员ID" prop="memberId">-->
+        <!--          <el-input v-model="form.memberId" placeholder="请输入会员ID" />-->
+        <!--        </el-form-item>-->
+        <!--        <el-form-item label="总积分" prop="totalIntegral">-->
+        <!--          <el-input v-model="form.totalIntegral" placeholder="请输入总积分" />-->
+        <!--        </el-form-item>-->
+        <!--        <el-form-item label="当前积分" prop="integral">-->
+        <!--          <el-input v-model="form.integral" placeholder="请输入当前积分" />-->
+        <!--        </el-form-item>-->
+        <el-form-item label="添加积分" prop="integral">
+          <el-input v-model="form.score" placeholder="请输入当前积分" />
         </el-form-item>
-        <el-form-item label="总积分" prop="totalIntegral">
-          <el-input v-model="form.totalIntegral" placeholder="请输入总积分" />
-        </el-form-item>
-        <el-form-item label="当前积分" prop="integral">
-          <el-input v-model="form.integral" placeholder="请输入当前积分" />
+        <el-form-item label="添加原因" prop="integral">
+          <el-input v-model="form.mark" placeholder="请输入当前积分" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -98,9 +107,9 @@
     <!-- 查看窗口 -->
     <el-dialog :title="$t('table.'+textMap[dialogStatus])" :visible.sync="dialogInfoVisible">
       <el-form ref="form" :model="form" label-width="100px">
-        <el-form-item label="会员ID" prop="memberId">
-          <el-input v-model="form.memberId" readonly="readonly" />
-        </el-form-item>
+        <!--        <el-form-item label="会员ID" prop="memberId">-->
+        <!--          <el-input v-model="form.memberId" readonly="readonly" />-->
+        <!--        </el-form-item>-->
         <el-form-item label="总积分" prop="totalIntegral">
           <el-input v-model="form.totalIntegral" readonly="readonly" />
         </el-form-item>
@@ -116,49 +125,35 @@
 </template>
 
 <script>
-import { page, addObj, getObj, delObj, putObj } from '@/api/admin/memberAccount'
-import MessageNotice from '@/components/Notice/MessageNotice'
+import { page, addObj, getObj, delObj, putObj, editScore } from '@/api/admin/memberAccount'
 
 export default {
   name: 'MemberAccount',
-  components: { MessageNotice },
   data() {
     return {
+      isAdd: false,
       message: '会员账户表',
       form: {
         memberId: '',
         totalIntegral: '',
-        integral: ''
+        integral: '',
+        score: 0,
+        mark: ''
       },
       rules: {
         memberId: [{
           required: true,
           message: '请输入会员ID',
           trigger: 'blur'
-        }, {
-          min: 1,
-          max: 20,
-          message: '长度在 1 到 20 个字符',
-          trigger: 'blur'
         }],
         totalIntegral: [{
           required: true,
           message: '请输入总积分',
           trigger: 'blur'
-        }, {
-          min: 1,
-          max: 20,
-          message: '长度在 1 到 20 个字符',
-          trigger: 'blur'
         }],
         integral: [{
           required: true,
           message: '请输入当前积分',
-          trigger: 'blur'
-        }, {
-          min: 1,
-          max: 20,
-          message: '长度在 1 到 20 个字符',
           trigger: 'blur'
         }]
       },
@@ -171,7 +166,9 @@ export default {
         limit: 10,
         memberId: '',
         totalIntegral: '',
-        integral: ''
+        integral: '',
+        score: 0,
+        mark: ''
       },
       dialogAddOrUpdateVisible: false,
       dialogInfoVisible: false,
@@ -207,7 +204,9 @@ export default {
       this.listQuery.page = 1
       this.listQuery.memberId = undefined
       this.listQuery.totalIntegral = undefined
-      this.listQuery.integral = undefined
+      this.listQuery.integral = undefined,
+      this.listQuery.score = undefined,
+      this.listQuery.mark = undefined
     },
     // 搜索
     handleFilter() {
@@ -229,12 +228,15 @@ export default {
       this.dialogAddOrUpdateVisible = true
     },
     // 编辑操作
-    handleUpdate(row) {
+    handleUpdate(row, e) {
+      e === 0 ? this.isAdd = true : this.isAdd = false
       getObj(row.memberId).then(res => {
         const data = res.data
         this.form.memberId = data.memberId
         this.form.totalIntegral = data.totalIntegral
         this.form.integral = data.integral
+        this.form.score = data.score
+        this.form.mark = data.mark
         this.dialogAddOrUpdateVisible = true
         this.dialogStatus = 'update'
       })
@@ -246,6 +248,8 @@ export default {
         this.form.memberId = data.memberId
         this.form.totalIntegral = data.totalIntegral
         this.form.integral = data.integral
+        this.form.score = data.score
+        this.form.mark = data.mark
         this.dialogInfoVisible = true
         this.dialogStatus = 'view'
       })
@@ -298,19 +302,41 @@ export default {
       this.saveLoading = true
       set[formName].validate(valid => {
         if (valid) {
-          putObj(this.form).then(() => {
+          let add = '+'
+          if (this.isAdd) {
+            add = '+'
+          } else {
+            add = '-'
+          }
+          editScore({
+            integral: Number(this.form.score),
+            remark: this.form.mark,
+            memberId: this.form.memberId,
+            operate: add
+          }).then(res => {
             this.dialogAddOrUpdateVisible = false
             this.getDataList()
             this.$notify({
               title: '成功',
-              message: '修改成功',
+              message: '添加成功',
               type: 'success',
               duration: 2000
             })
             this.saveLoading = false
-          }).catch(() => {
-            this.saveLoading = false
           })
+          // putObj(this.form).then(() => {
+          //   this.dialogAddOrUpdateVisible = false
+          //   this.getDataList()
+          //   this.$notify({
+          //     title: '成功',
+          //     message: '修改成功',
+          //     type: 'success',
+          //     duration: 2000
+          //   })
+          //   this.saveLoading = false
+          // }).catch(() => {
+          //   this.saveLoading = false
+          // })
         } else {
           this.saveLoading = false
           return false
@@ -329,7 +355,8 @@ export default {
       this.form = {
         memberId: '',
         totalIntegral: '',
-        integral: ''
+        integral: '',
+        score: 0
       }
     }
   }

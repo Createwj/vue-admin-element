@@ -93,43 +93,6 @@ export const constantRoutes = [
       }
     ]
   },
-
-  {
-    path: '/vip',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/modules/member.vue'),
-        name: 'User',
-        meta: { title: '用户管理', icon: 'user', noCache: true }
-      }
-    ]
-  },
-  {
-    path: '/vip/s',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/modules/memberAccountLog.vue'),
-        name: 'peoples',
-        meta: { title: '会员账号记录', icon: 'peoples', noCache: true }
-      }
-    ]
-  },
-  {
-    path: '/vip/token',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/modules/memberToken.vue'),
-        name: 'People',
-        meta: { title: '用户token管理', icon: 'people', noCache: true }
-      }
-    ]
-  },
   {
     path: '/user/order',
     component: Layout,
@@ -141,7 +104,43 @@ export const constantRoutes = [
         meta: { title: '订单管理', icon: 'documentation', noCache: true }
       }
     ]
+  },
+  {
+    path: '/vip',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/modules/member.vue'),
+        name: 'User',
+        meta: { title: '用户管理', icon: 'user', noCache: true }
+      }
+    ]
   }
+  // {
+  //   path: '/vip/s',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       component: () => import('@/views/modules/memberAccountLog.vue'),
+  //       name: 'peoples',
+  //       meta: { title: '会员账号记录', icon: 'peoples', noCache: true }
+  //     }
+  //   ]
+  // }
+  // {
+  //   path: '/vip/token',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       component: () => import('@/views/modules/memberToken.vue'),
+  //       name: 'People',
+  //       meta: { title: '用户token管理', icon: 'people', noCache: true }
+  //     }
+  //   ]
+  // }
 ]
 
 /**
@@ -149,18 +148,18 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
-  {
-    path: '/table',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/table/complex-table'),
-        name: 'Icons',
-        meta: { title: '测试页面', icon: 'dashboard', noCache: true }
-      }
-    ]
-  },
+  // {
+  //   path: '/table',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       component: () => import('@/views/table/complex-table'),
+  //       name: 'Icons',
+  //       meta: { title: '测试页面', icon: 'dashboard', noCache: true }
+  //     }
+  //   ]
+  // },
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
