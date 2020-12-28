@@ -10,11 +10,11 @@
     <!-- 搜索条件 -->
     <el-form ref="listQuery" :inline="true" :model="listQuery" label-width="120px">
       <div class="filter-container">
-        <el-form-item label="活动ID:">
-          <el-input v-model="listQuery.activityId" size="small" class="filter-item" placeholder="活动ID" />
-        </el-form-item>
-        <el-form-item label="会员ID:">
-          <el-input v-model="listQuery.memberId" size="small" class="filter-item" placeholder="会员ID" />
+        <!--        <el-form-item label="活动ID:">-->
+        <!--          <el-input v-model="listQuery.activityId" size="small" class="filter-item" placeholder="活动ID" />-->
+        <!--        </el-form-item>-->
+        <el-form-item label="活动名称:">
+          <el-input v-model="listQuery.activityName" size="small" class="filter-item" placeholder="活动名称" />
         </el-form-item>
         <el-form-item label="会员名称:">
           <el-input v-model="listQuery.memberName" size="small" class="filter-item" placeholder="会员名称" />

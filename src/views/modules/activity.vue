@@ -125,7 +125,8 @@
             <!--编辑-->
             <el-button type="primary" @click="handleUpdate(scope.row)">{{ $t('table.edit') }}</el-button>
             <!--删除-->
-            <el-button type="primary" @click="handleDelete(scope.row)">{{ $t('table.delete') }}</el-button>
+            <el-button type="danger" @click="handleDelete(scope.row)">{{ $t('table.delete') }}</el-button>
+            <el-button type="success" @click="handleLook(scope.row)">报名成员</el-button>
 
           </template>
         </el-table-column>
@@ -238,7 +239,12 @@
         <el-button v-else type="primary" :loading="saveLoading" @click="update('form')">{{ $t('table.confirm') }}</el-button>
       </div>
     </el-dialog>
-
+    <el-dialog title="查看报名成员" :visible.sync="showPop">
+      <div v-for="(item, index) in showDate" :key="index">
+        {{ item.memberName }}
+        <img :src="item.memberPhoto" width="50" height="50" alt="">
+      </div>
+    </el-dialog>
     <!-- 查看窗口 -->
     <el-dialog :title="$t('table.'+textMap[dialogStatus])" :visible.sync="dialogInfoVisible">
       <el-form ref="form" :model="form" label-width="100px">
@@ -306,8 +312,9 @@
 </template>
 
 <script>
-import { page, addObj, getObj, delObj, putObj } from '@/api/admin/activity'
-import MessageNotice from '@/components/Notice/MessageNotice'
+/* eslint-disable */
+import { page, addObj, getObj, delObj, putObj, interpage } from '@/api/admin/activity'
+// import MessageNotice from '@/components/Notice/MessageNotice'
 import Dropzone from '@/components/Dropzone'
 import picUpload from '@/components/pic-upload/index'
 import { ajaxUrl } from '@/utils/request'
@@ -317,6 +324,8 @@ export default {
   components: { picUpload, Tinymce, Dropzone },
   data() {
     return {
+      showDate: [],
+      showPop: false,
       optionFree: [{
         value: '0',
         label: '免费'
@@ -627,6 +636,16 @@ export default {
         this.form.inputTime = data.inputTime
         this.dialogInfoVisible = true
         this.dialogStatus = 'view'
+      })
+    },
+    handleLook(row) {
+      console.log('')
+      interpage({ page: 1, limit: 100, activityId: row.activityId }).then(res => {
+        console.log(res)
+        if (res.code === 0) {
+          this.showPop = true
+          this.showDate = res.data && res.data.items
+        }
       })
     },
     // 删除操作

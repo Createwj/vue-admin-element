@@ -8,6 +8,14 @@ export function page(query) {
   })
 }
 
+export function interpage(query) {
+  return request({
+    url: '/admin/apply/page',
+    method: 'post',
+    data: query
+  })
+}
+
 export function addObj(obj) {
   return request({
     url: '/admin/activity',
