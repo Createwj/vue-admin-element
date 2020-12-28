@@ -10,11 +10,17 @@
     <!-- 搜索条件 -->
     <el-form ref="listQuery" :inline="true" :model="listQuery" label-width="120px">
       <div class="filter-container">
-        <!--        <el-form-item label="活动ID:">-->
-        <!--          <el-input v-model="listQuery.totalIntegral" size="small" class="filter-item" placeholder="活动ID" />-->
-        <!--        </el-form-item>-->
-        <!--        <el-button type="primary" class="filter-item other-btns" @click="handleFilter">{{ $t('table.search') }}</el-button>-->
-        <!--        <el-button type="danger" class="filter-item other-btns" style="margin-left:30px" @click="handleEmpty">{{ $t('table.empty') }}</el-button>-->
+        <el-form-item label="活动ID:">
+          <el-input v-model="listQuery.activityId" size="small" class="filter-item" placeholder="活动ID" />
+        </el-form-item>
+        <el-form-item label="会员ID:">
+          <el-input v-model="listQuery.memberId" size="small" class="filter-item" placeholder="会员ID" />
+        </el-form-item>
+        <el-form-item label="会员名称:">
+          <el-input v-model="listQuery.memberName" size="small" class="filter-item" placeholder="会员名称" />
+        </el-form-item>
+        <el-button type="primary" class="filter-item other-btns" @click="handleFilter">{{ $t('table.search') }}</el-button>
+        <el-button type="danger" class="filter-item other-btns" style="margin-left:30px" @click="handleEmpty">{{ $t('table.empty') }}</el-button>
 
       </div>
     </el-form>
@@ -25,16 +31,16 @@
       <br>
       <el-table :key="tableKey" v-loading.body="listLoading" :data="dataList" :header-cell-style="{background:'#F5F5F5'}" border fit highlight-current-row style="width: 100%">
         <el-table-column label="序号" type="index" width="50" />
-        <!--        <el-table-column align="center" label="活动ID">-->
+        <!--                <el-table-column align="center" label="活动ID">-->
+        <!--                  <template slot-scope="scope">-->
+        <!--                    <span>{{ scope.row.totalIntegral }}</span>-->
+        <!--                  </template>-->
+        <!--                </el-table-column>-->
+        <!--        <el-table-column align="center" label="会员ID">-->
         <!--          <template slot-scope="scope">-->
-        <!--            <span>{{ scope.row.totalIntegral }}</span>-->
+        <!--            <span>{{ scope.row.memberId }}</span>-->
         <!--          </template>-->
         <!--        </el-table-column>-->
-        <el-table-column align="center" label="会员ID">
-          <template slot-scope="scope">
-            <span>{{ scope.row.memberId }}</span>
-          </template>
-        </el-table-column>
         <el-table-column align="center" label="会员名称">
           <template slot-scope="scope">
             <span>{{ scope.row.memberName }}</span>
@@ -43,6 +49,12 @@
         <el-table-column align="center" label="会员头像">
           <template slot-scope="scope">
             <img :src="scope.row.memberPhoto" width="50" height="50" alt="">
+            <!--            <span>{{  }}</span>-->
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="活动名称">
+          <template slot-scope="scope">
+            <span>{{ scope.row.activityName }}</span>
             <!--            <span>{{  }}</span>-->
           </template>
         </el-table-column>
@@ -142,11 +154,11 @@
 
 <script>
 import { page, addObj, getObj, delObj, putObj } from '@/api/admin/apply'
-import MessageNotice from '@/components/Notice/MessageNotice'
+// import MessageNotice from '@/components/Notice/MessageNotice'
 
 export default {
   name: 'Apply',
-  components: { MessageNotice },
+  // components: { MessageNotice },
   data() {
     return {
       message: '报名表',
@@ -156,6 +168,7 @@ export default {
         memberId: '',
         memberName: '',
         memberPhoto: '',
+        activityName: '',
         applySta: '',
         applyTime: ''
       },

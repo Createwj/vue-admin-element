@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-
+// 查询参加过的活动
 export function page(query) {
   return request({
     url: '/admin/apply/page',

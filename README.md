@@ -251,3 +251,13 @@ export default {
   }
 }
 ```
+
+
+scp /Users/qsc/work/vue-admin-element/dist.zip root@47.104.160.156:/home/webserve/admin
+ss420887*
+
+
+ssh -p 22 root@47.104.160.156
+ss420887*
+
+cd /home/webserve/admin&&unzip dist.zip
