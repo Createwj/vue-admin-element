@@ -240,9 +240,12 @@
       </div>
     </el-dialog>
     <el-dialog title="查看报名成员" :visible.sync="showPop">
+      <h3>活动名称: {{ showDate && showDate[0].activityName }}</h3>
       <div v-for="(item, index) in showDate" :key="index">
-        {{ item.memberName }}
-        <img :src="item.memberPhoto" width="50" height="50" alt="">
+        <div class="flex_box">
+          <div class="user_name">{{ item.memberName }}</div>
+          <div class="avatar"> <img :src="item.memberPhoto" width="50" height="50" alt=""></div>
+        </div>
       </div>
     </el-dialog>
     <!-- 查看窗口 -->
@@ -324,7 +327,7 @@ export default {
   components: { picUpload, Tinymce, Dropzone },
   data() {
     return {
-      showDate: [],
+      showDate: [{activityName: ''}],
       showPop: false,
       optionFree: [{
         value: '0',
@@ -791,3 +794,14 @@ export default {
   }
 }
 </script>
+<style scoped lang="scss">
+  .flex_box {
+    display: flex;
+    .user_name {
+
+    }
+    .avatar {
+
+    }
+  }
+</style>
