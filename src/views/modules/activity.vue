@@ -124,9 +124,10 @@
             <!--            <el-button type="primary" @click="handleView(scope.row)">{{ $t('table.view') }}</el-button>-->
             <!--编辑-->
             <el-button type="primary" @click="handleUpdate(scope.row)">{{ $t('table.edit') }}</el-button>
+            <el-button type="success" @click="handleLook(scope.row)">报名成员</el-button>
+
             <!--删除-->
             <el-button type="danger" @click="handleDelete(scope.row)">{{ $t('table.delete') }}</el-button>
-            <el-button type="success" @click="handleLook(scope.row)">报名成员</el-button>
 
           </template>
         </el-table-column>
@@ -797,11 +798,16 @@ export default {
 <style scoped lang="scss">
   .flex_box {
     display: flex;
+    margin-top: 30px;
+    padding-left: 50px;
     .user_name {
-
+      width: 80px;
+      text-align: center;
+      height: 50px;
+      line-height: 50px;
     }
     .avatar {
-
+      margin-left: 50px;
     }
   }
 </style>
